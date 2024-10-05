@@ -1,28 +1,31 @@
 const express = require("express");
-const map = require("../models/map");
+const MapModel = require("../models/map");
 const router = express.Router();
 
 router.post("/api/saveMap", async (req, res) => {
   const { worldId, playerId, mapData } = req.body;
   try {
-    let map = await map.findOne({ worldId, playerId });
-    if (map) {
-      map.mapData = mapData;
-      await map.save();
+    let existingMap = await MapModel.findOne({ worldId, playerId }); // Use different variable name for existing map
+    if (existingMap) {
+      existingMap.mapData = mapData;
+      await existingMap.save();
     } else {
-      map = new Map({ worldId, playerId, mapData });
-      await map.save();
+      const newMap = new MapModel({ worldId, playerId, mapData });
+      await newMap.save();
     }
     res.status(200).json({ message: "Map saved successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to save map", error });
+    console.error("Error saving map:", error); // Log error for better debugging
+    res
+      .status(500)
+      .json({ message: "Failed to save map", error: error.message });
   }
 });
 
 router.get("/api/loadMap/:playerId", async (req, res) => {
   const { playerId } = req.params;
   try {
-    const map = await Map.findOne({ playerId });
+    const map = await MapModel.findOne({ playerId });
     if (map) {
       res.status(200).json({ mapData: map.mapData });
     } else {
@@ -36,7 +39,7 @@ router.get("/api/loadMap/:playerId", async (req, res) => {
 router.get("/api/getMaps/:playerId", async (req, res) => {
   const { playerId } = req.params;
   try {
-    const maps = await Map.find({ playerId });
+    const maps = await MapModel.find({ playerId });
     if (maps.length > 0) {
       const mapList = maps.map((map) => ({
         worldId: map.worldId,
