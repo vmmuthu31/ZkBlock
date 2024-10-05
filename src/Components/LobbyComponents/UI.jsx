@@ -98,6 +98,11 @@ export const UI = () => {
   // Menu state to toggle character selection UI
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Chatbot state
+  const [chatBotOpen, setChatBotOpen] = useState(false); // For toggling chatbot open/close
+  const [messages, setMessages] = useState([]); // To store chat messages
+  const [userMessage, setUserMessage] = useState(""); // User's input message
+
   // Available characters for selection
   const characters = [
     { name: "Nagi", file: "/models/nagi.glb" },
@@ -108,6 +113,19 @@ export const UI = () => {
   // Function to handle character selection
   const selectCharacter = (characterFile) => {
     setAvatarUrl(characterFile); // Update the avatar URL with the selected model
+  };
+
+  // Function to send message to chatbot
+  const sendToChatBot = () => {
+    if (userMessage.trim() !== "") {
+      const newMessages = [
+        ...messages,
+        { sender: "user", text: userMessage },
+        { sender: "bot", text: "Hello, how can I assist you?" }, // Simulated AI response
+      ];
+      setMessages(newMessages);
+      setUserMessage(""); // Clear input field
+    }
   };
 
   return (
@@ -223,6 +241,75 @@ export const UI = () => {
                   <p className="text-center mt-2">{character.name}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* ChatBot Button */}
+        <div className="fixed bottom-4 right-4">
+          <button
+            className="bg-green-500 p-2 rounded-full hover:bg-green-700 transition"
+            onClick={() => setChatBotOpen(!chatBotOpen)} // Toggle chatbot visibility
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 text-white"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8 12h8m-4 4h4m-4-8h.01M4 8h.01M4 12h.01M4 16h.01"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Chatbot UI */}
+        {chatBotOpen && (
+          <div className="fixed bottom-0 right-4 bg-white text-black rounded-lg shadow-lg w-80 h-96 flex flex-col p-4 z-30">
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-bold">AI ChatBot</h2>
+              <button
+                className="text-red-500"
+                onClick={() => setChatBotOpen(false)} // Close the chatbot
+              >
+                X
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto my-4">
+              {messages.map((msg, index) => (
+                <div
+                  key={index}
+                  className={`p-2 my-2 rounded-lg ${
+                    msg.sender === "user"
+                      ? "bg-blue-100 text-right"
+                      : "bg-gray-100 text-left"
+                  }`}
+                >
+                  {msg.text}
+                </div>
+              ))}
+            </div>
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                className="flex-1 border p-2 rounded-lg"
+                value={userMessage}
+                onChange={(e) => setUserMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") sendToChatBot();
+                }}
+              />
+              <button
+                className="bg-blue-500 text-white p-2 rounded-lg"
+                onClick={sendToChatBot}
+              >
+                Send
+              </button>
             </div>
           </div>
         )}
