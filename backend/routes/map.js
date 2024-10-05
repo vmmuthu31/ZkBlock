@@ -1,6 +1,30 @@
 const express = require("express");
 const MapModel = require("../models/map");
 const router = express.Router();
+const { verifyCloudProof } = require("@worldcoin/idkit-core/backend");
+
+const app_id = "app_e98efdb2faa9a49679dc04274c40aac1";
+const action = "zkblock";
+
+router.post("/api/verify", async (req, res) => {
+  const { proof, signal } = req.body;
+
+  try {
+    const verifyRes = await verifyCloudProof(proof, app_id, action, signal);
+    if (verifyRes.success) {
+      res.status(200).json({ success: true });
+    } else {
+      res.status(400).json({
+        success: false,
+        code: verifyRes.code,
+        attribute: verifyRes.attribute,
+        detail: verifyRes.detail,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error", error });
+  }
+});
 
 router.post("/api/saveMap", async (req, res) => {
   const { worldId, playerId, mapData } = req.body;
