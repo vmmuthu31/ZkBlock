@@ -3,6 +3,7 @@ import Web3 from "web3";
 import { ethers } from "ethers";
 
 import abi from "./abi.json";
+import game from "./game.json"
 import { parseEther } from "viem";
 
 const isBrowser = () => typeof window !== "undefined";
@@ -169,7 +170,6 @@ console.log("event filter", eventFilter);
 export const UpdateGameData = async (player,gold,diamond,mapId, data) => {
     // provider
   
-    console.log("val", val);
     const provider =
       window.ethereum != null
         ? new ethers.providers.Web3Provider(window.ethereum)
@@ -183,7 +183,7 @@ export const UpdateGameData = async (player,gold,diamond,mapId, data) => {
     console.log("signer", signer);
     // contract instance
   
-    const contract = new ethers.Contract(contract_address, abi, signer);
+    const contract = new ethers.Contract(scroll_address, game, signer);
   
     console.log("contract", contract);
   

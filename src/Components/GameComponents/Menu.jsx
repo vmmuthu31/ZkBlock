@@ -10,6 +10,7 @@ import {
 import { toast, ToastContainer } from "react-toastify"; // Import Toastify components
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 import { Link } from "react-router-dom";
+import { UpdateGameData } from "../../Integration.js";
 
 // Utility function to detect if the user is on a mobile device
 const isMobileDevice = () => {
@@ -30,8 +31,8 @@ export const Menu = () => {
   const cubes = useStore((state) => state.cubes);
   const availableMaps = useStore((state) => state.availableMaps);
 
-  const worldId = "world_1"; // Example world ID
-  const playerId = "player_123"; // Example player ID
+  const worldId = Math.floor(Math.random() * 10).toString();  // Example world ID
+  const playerId = localStorage.getItem("address"); // Example player ID
 
   const [selectedMap, setSelectedMap] = useState("");
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -132,7 +133,11 @@ export const Menu = () => {
             </button>
           </div>
           <div className="menu-content">
-            <button onClick={() => saveWorld(cubes, worldId, playerId)}>
+            <button onClick={() =>{ saveWorld(cubes, worldId, playerId)
+              UpdateGameData(playerId,12, 24,worldId,playerId, "MenuProgress")
+              alert("Game Saved Successfully")
+            }
+            }>
               Save
             </button>
             <button onClick={() => resetWorld()}>Reset</button>
