@@ -6,7 +6,7 @@ import { FPV as Fpv } from "./Components/FPV.jsx";
 import { Player } from "./Components/Player.jsx";
 import { Cubes } from "./Components/Cubes.jsx";
 import { TextureSelector } from "./Components/TextureSelect.jsx";
-import { Menu } from "./components/Menu.jsx";
+import { Menu } from "./Components/Menu.jsx";
 import { Joystick } from "./Components/Joystick.jsx";
 
 import { useState } from "react";
