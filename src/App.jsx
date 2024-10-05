@@ -7,8 +7,14 @@ import { Player } from "./Components/Player.jsx";
 import { Cubes } from "./Components/Cubes.jsx";
 import { TextureSelector } from "./components/TextureSelect.jsx";
 import { Menu } from "./components/Menu.jsx";
+import { Joystick } from "./components/Joystick.jsx"; // Use consistent casing here
+
+import { useState } from "react";  // Import useState to manage joystick data
 
 function App() {
+  // State to track joystick direction
+  const [joystickDirection, setJoystickDirection] = useState({ forward: 0, right: 0 });
+
   return (
     <>
       <Canvas>
@@ -17,13 +23,18 @@ function App() {
         <Fpv />
         <Physics>
           <Cubes />
-          <Player />
+          {/* Pass joystickDirection as a prop to Player */}
+          <Player joystickDirection={joystickDirection} />
           <Ground />
         </Physics>
       </Canvas>
       <TextureSelector />
       <Menu />
-      <div class="pointer">+</div>
+
+      {/* Handle joystick movement by updating the state */}
+      <Joystick onMove={setJoystickDirection} />
+
+      <div className="pointer">+</div>
     </>
   );
 }
