@@ -3,6 +3,14 @@ import { useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three"; // Import Three.js for quaternion manipulation
 
+// Utility function to check if the user is on a mobile device
+const isMobileDevice = () => {
+  return (
+    typeof window.orientation !== "undefined" ||
+    navigator.userAgent.indexOf("IEMobile") !== -1
+  );
+};
+
 export function FPV() {
   const { camera, gl } = useThree();
   const touchStart = useRef({ x: 0, y: 0 });
@@ -13,7 +21,13 @@ export function FPV() {
   // Sensitivity for touch controls
   const sensitivity = 0.002;
 
+  // Check if the user is on mobile or desktop
+  const isMobile = isMobileDevice();
+
+  // Touch controls for mobile
   useEffect(() => {
+    if (!isMobile) return; // Only add touch controls on mobile devices
+
     const handleTouchStart = (event) => {
       isTouching.current = true;
       // Capture the starting position of the touch
@@ -32,7 +46,7 @@ export function FPV() {
       const deltaY = touch.clientY - touchStart.current.y;
 
       // Horizontal rotation (Y-axis) - Continuous rotation, no clamping
-      rotationY.current -= deltaX * sensitivity; // Swiping left should rotate the view left and vice versa
+      rotationY.current -= deltaX * sensitivity;
 
       // Vertical rotation (X-axis) - Rotate up and down (clamped)
       rotationX.current -= deltaY * sensitivity;
@@ -62,7 +76,12 @@ export function FPV() {
       gl.domElement.removeEventListener("touchmove", handleTouchMove);
       gl.domElement.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [camera, gl.domElement]);
+  }, [camera, gl.domElement, isMobile]);
 
-  return <PointerLockControls args={[camera, gl.domElement]} />;
+  // Only enable PointerLockControls for desktop (not mobile)
+  if (!isMobile) {
+    return <PointerLockControls args={[camera, gl.domElement]} />;
+  }
+
+  return null; // On mobile, don't render PointerLockControls
 }

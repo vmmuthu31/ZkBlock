@@ -14,12 +14,23 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
 
+// Utility function to detect if the user is on a mobile device
+const isMobileDevice = () => {
+  return (
+    typeof window.orientation !== "undefined" ||
+    navigator.userAgent.indexOf("IEMobile") !== -1
+  );
+};
+
 function App() {
   // State to track joystick direction
   const [joystickDirection, setJoystickDirection] = useState({ forward: 0, right: 0 });
 
   // State to manage full-screen status
   const [isFullScreen, setIsFullScreen] = useState(false);
+
+  // State to detect if the device is mobile or desktop
+  const [isMobile, setIsMobile] = useState(false);
 
   // Function to toggle full-screen mode
   const toggleFullScreen = () => {
@@ -49,6 +60,9 @@ function App() {
     const handleFullScreenChange = () => {
       setIsFullScreen(!!document.fullscreenElement);
     };
+
+    // Detect if the device is mobile or desktop
+    setIsMobile(isMobileDevice());
 
     // Listen to the fullscreenchange event
     document.addEventListener("fullscreenchange", handleFullScreenChange);
@@ -81,47 +95,59 @@ function App() {
       </Canvas>
       <TextureSelector />
       <Menu />
-      {/* Handle joystick movement by updating the state */}
-      <Joystick onMove={setJoystickDirection} />
-      <div className="pointer">+</div>
-      
-      {/* Button to toggle fullscreen */}
-      <button 
-        onClick={toggleFullScreen}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          padding: "10px",
-          background: "rgba(0, 0, 0, 0.7)",
-          color: "#fff",
-          border: "none",
-          borderRadius: "50%",
-          cursor: "pointer"
-        }}
-      >
-        <FontAwesomeIcon icon={isFullScreen ? faCompress : faExpand} size="lg" />
-      </button>
 
-      {/* Jump Button for mobile */}
-      <button 
-        onClick={handleJump}
-        style={{
-          position: "absolute",
-          bottom: "20px",
-          right: "20px",
-          padding: "15px 20px",
-          fontSize: "16px",
-          background: "#000",
-          color: "#fff",
-          border: "none",
-          borderRadius: "10px",
-          cursor: "pointer",
-          zIndex: 10,
-        }}
-      >
-        Jump
-      </button>
+      {/* Show joystick and mobile controls only if the device is mobile */}
+      {isMobile && (
+        <>
+          {/* Handle joystick movement by updating the state */}
+          <Joystick onMove={setJoystickDirection} />
+          
+          {/* Jump Button for mobile */}
+          <button 
+            onClick={handleJump}
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              padding: "15px 20px",
+              fontSize: "16px",
+              background: "#000",
+              color: "#fff",
+              border: "none",
+              borderRadius: "10px",
+              cursor: "pointer",
+              zIndex: 10,
+            }}
+          >
+            Jump
+          </button>
+        </>
+      )}
+
+      {/* Show desktop-specific controls only if the device is not mobile */}
+      {!isMobile && (
+        <>
+          <div className="pointer">+</div>
+          
+          {/* Button to toggle fullscreen */}
+          <button 
+            onClick={toggleFullScreen}
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              padding: "10px",
+              background: "rgba(0, 0, 0, 0.7)",
+              color: "#fff",
+              border: "none",
+              borderRadius: "50%",
+              cursor: "pointer"
+            }}
+          >
+            <FontAwesomeIcon icon={isFullScreen ? faCompress : faExpand} size="lg" />
+          </button>
+        </>
+      )}
     </>
   );
 }
