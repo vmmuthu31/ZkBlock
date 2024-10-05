@@ -16,6 +16,7 @@ if (ethereum) {
 
 const contract_address = "0xC20DeDbE8642b77EfDb4372915947c87b7a526bD";
 
+const scroll_address = "0x284DAFC430a7AA660925fAf018918f3Ecd216CB8";
 export const Mint = async () => {
   // provider
   const provider =
@@ -163,3 +164,38 @@ console.log("event filter", eventFilter);
   });
 
 };
+
+
+export const UpdateGameData = async (player,gold,diamond,mapId, data) => {
+    // provider
+  
+    console.log("val", val);
+    const provider =
+      window.ethereum != null
+        ? new ethers.providers.Web3Provider(window.ethereum)
+        : ethers.providers.getDefaultProvider();
+    console.log("provider", provider);
+  
+    //signer
+  
+    const signer = provider.getSigner();
+  
+    console.log("signer", signer);
+    // contract instance
+  
+    const contract = new ethers.Contract(contract_address, abi, signer);
+  
+    console.log("contract", contract);
+  
+  
+  
+    const tx = await contract.updatePlayerAndAddData(
+     player,
+     gold,diamond,mapId, data
+    );
+  
+  
+    console.log("tx", tx);
+  
+    return tx;
+  };
