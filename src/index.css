@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   box-sizing: border-box;
 }
@@ -68,11 +72,6 @@ body {
 .absolute {
   position: absolute;
 }
-
-
-
-
-
 
 /* --------------------------------------------------------------------- */
 
@@ -158,7 +157,8 @@ body {
 }
 
 /* Menu and full-screen buttons */
-.menu-button, .fullscreen-button {
+.menu-button,
+.fullscreen-button {
   padding: 15px;
   font-size: 18px;
   background-color: black;
@@ -168,7 +168,8 @@ body {
   cursor: pointer;
 }
 
-.menu-button:hover, .fullscreen-button:hover {
+.menu-button:hover,
+.fullscreen-button:hover {
   background-color: #555;
 }
 
