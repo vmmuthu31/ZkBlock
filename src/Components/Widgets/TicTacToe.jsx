@@ -3,7 +3,7 @@ import axios from "axios";
 import Confetti from "react-confetti"; // Import Confetti for a win celebration
 import "../../Xox.css"; // Assuming your CSS already exists
 
-const playerId = "player_123"; // Example player ID
+// const playerId = "player_123"; // Example player ID
 
 const TicTacToe = () => {
   const [board, setBoard] = useState(Array(9).fill(""));
@@ -12,10 +12,12 @@ const TicTacToe = () => {
   const [message, setMessage] = useState("");
   const [winningPoints, setWinningPoints] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false); // To trigger confetti
-
+// const [playerId, setPlayerId] = useState('')
   // Function to update player's coins
   const updateCoins = async (goldIncrease, diamondIncrease) => {
     try {
+
+      const playerId = localStorage.getItem("address");
       // Get the current gold and diamonds first
       const goldResponse = await axios.get(`http://localhost:3000/api/getGoldCoins/${playerId}`);
       const diamondResponse = await axios.get(`http://localhost:3000/api/getDiamonds/${playerId}`);

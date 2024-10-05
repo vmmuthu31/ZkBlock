@@ -26,8 +26,8 @@ export const Lobby = () => {
   const [loading, setLoading] = useState(true);
   const [walletAddress, setWalletAddress] = useState(""); // State for wallet address
 
-  const worldId = "world_1"; // Example world ID
-  const playerId = "player_123"; // Example player ID
+
+  const [playerId, setPlayerId] = useState('')
 
   useEffect(() => {
     if (walletAddress) {
@@ -66,6 +66,8 @@ export const Lobby = () => {
       try {
         const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
         setWalletAddress(accounts[0]); // Set the connected wallet address
+        setPlayerId(accounts[0])
+        localStorage.setItem("address",accounts[0]);
       } catch (error) {
         console.error("Error connecting to wallet:", error);
       }
