@@ -27,7 +27,7 @@ const TicTacToe = () => {
       const newGold = goldResponse.data.gold_coins + goldIncrease;
       const newDiamonds = diamondResponse.data.diamonds + diamondIncrease;
       try {
-        const res = await UpdateGameData(playerId, newGold, newDiamonds,"TIK TAC TOE", "GAME PROGRESS")
+        const res = await UpdateGameData(playerId, newGold, newDiamonds,"1", "GAME PROGRESS")
       } catch (error) {
         console.log("error",error);
       }
@@ -37,6 +37,7 @@ const TicTacToe = () => {
       setWinningPoints({ gold: goldIncrease, diamonds: diamondIncrease });
       setMessage(`🎉 You won! Earned ${goldIncrease} gold and ${diamondIncrease} diamonds.`);
       setShowConfetti(true); // Trigger confetti animation
+      alert("Transaction successful")
     } catch (error) {
       console.error("Error updating coins:", error);
     }
