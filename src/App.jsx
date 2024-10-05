@@ -9,12 +9,9 @@ import { TextureSelector } from "./Components/TextureSelect.jsx";
 import { Menu } from "./Components/Menu.jsx";
 import { Joystick } from "./Components/Joystick.jsx";
 import { useState, useEffect } from "react";
-
-// Import Font Awesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExpand, faCompress } from "@fortawesome/free-solid-svg-icons";
 
-// Utility function to detect if the user is on a mobile device
 const isMobileDevice = () => {
   return (
     typeof window.orientation !== "undefined" ||
@@ -23,32 +20,25 @@ const isMobileDevice = () => {
 };
 
 function App() {
-  // State to track joystick direction
   const [joystickDirection, setJoystickDirection] = useState({
     forward: 0,
     right: 0,
   });
 
-  // State to manage full-screen status
   const [isFullScreen, setIsFullScreen] = useState(false);
 
-  // State to detect if the device is mobile or desktop
   const [isMobile, setIsMobile] = useState(false);
 
-  // Function to toggle full-screen mode
   const toggleFullScreen = () => {
     const docElm = document.documentElement;
     if (!document.fullscreenElement) {
       if (docElm.requestFullscreen) {
         docElm.requestFullscreen();
       } else if (docElm.mozRequestFullScreen) {
-        // Firefox
         docElm.mozRequestFullScreen();
       } else if (docElm.webkitRequestFullscreen) {
-        // Chrome, Safari, and Opera
         docElm.webkitRequestFullscreen();
       } else if (docElm.msRequestFullscreen) {
-        // IE/Edge
         docElm.msRequestFullscreen();
       }
     } else {
@@ -58,19 +48,15 @@ function App() {
     }
   };
 
-  // Use effect to listen for changes in fullscreen status
   useEffect(() => {
     const handleFullScreenChange = () => {
       setIsFullScreen(!!document.fullscreenElement);
     };
 
-    // Detect if the device is mobile or desktop
     setIsMobile(isMobileDevice());
 
-    // Listen to the fullscreenchange event
     document.addEventListener("fullscreenchange", handleFullScreenChange);
 
-    // Cleanup event listener when component unmounts
     return () => {
       document.removeEventListener("fullscreenchange", handleFullScreenChange);
     };
@@ -79,8 +65,8 @@ function App() {
   // Jump button handler
   const handleJump = () => {
     const jumpEvent = new Event("jump");
-    window.dispatchEvent(jumpEvent); // Dispatch a custom jump event
-    console.log("Jump event dispatched"); // Debug to see if the event fires
+    window.dispatchEvent(jumpEvent);
+    console.log("Jump event dispatched");
   };
 
   return (
@@ -91,7 +77,6 @@ function App() {
         <Fpv />
         <Physics>
           <Cubes />
-          {/* Pass joystickDirection as a prop to Player */}
           <Player joystickDirection={joystickDirection} />
           <Ground />
         </Physics>
@@ -99,13 +84,10 @@ function App() {
       <TextureSelector />
       <Menu />
 
-      {/* Show joystick and mobile controls only if the device is mobile */}
       {isMobile && (
         <>
-          {/* Handle joystick movement by updating the state */}
           <Joystick onMove={setJoystickDirection} />
 
-          {/* Jump Button for mobile */}
           <button
             onClick={handleJump}
             style={{
@@ -126,13 +108,9 @@ function App() {
           </button>
         </>
       )}
-
-      {/* Show desktop-specific controls only if the device is not mobile */}
       {!isMobile && (
         <>
           <div className="pointer">+</div>
-
-          {/* Button to toggle fullscreen */}
           <button
             onClick={toggleFullScreen}
             style={{
