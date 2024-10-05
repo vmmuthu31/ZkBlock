@@ -68,3 +68,112 @@ body {
 .absolute {
   position: absolute;
 }
+
+
+
+
+
+
+/* --------------------------------------------------------------------- */
+
+/* For the popup menu */
+.menu-popup {
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 450px;
+  max-width: 90%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+/* Header of the menu */
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Close button */
+.close-menu {
+  background-color: red;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer !important;
+  border-radius: 50%;
+  padding: 5px 10px;
+  height: 40px !important;
+  width: 36px !important;
+}
+
+.close-menu:hover {
+  background-color: darkred;
+}
+
+/* Buttons styling */
+.menu-popup button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.menu-popup button:hover {
+  background-color: #555;
+}
+
+/* Select box styling */
+.menu-popup select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+/* Top-right buttons container */
+.top-right-buttons {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+
+/* Menu and full-screen buttons */
+.menu-button, .fullscreen-button {
+  padding: 15px;
+  font-size: 18px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.menu-button:hover, .fullscreen-button:hover {
+  background-color: #555;
+}
+
+.hr {
+  border-style: solid;
+  border-color: #5b5b5b;
+  margin: 20px 0;
+}
