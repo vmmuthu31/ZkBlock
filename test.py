@@ -26,24 +26,24 @@ else:
 
 
 
-    #   {gameOver && (
-    #     <div style={{
-    #         display: 'flex',
-    #         flexDirection: 'row',
-    #         justifyContent: 'space-between',
-    #         gap: '16px'
-    #       }}>
-    #         <button id="restart-button" onClick={restartGame}>
-    #           Play Again
-    #         </button>
-    #         <a href="/lobby">
-    #             <button id="restart-button" onClick={restartGame}
-    #             >
-    #                 back
-    #             </button> 
-    #         </a>
-    #     </div>
-    #   )}
+      {gameOver && (
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            gap: '16px'
+          }}>
+            <button id="restart-button" onClick={restartGame}>
+              Play Again
+            </button>
+            <a href="/lobby">
+                <button id="restart-button" onClick={restartGame}
+                >
+                    back
+                </button> 
+            </a>
+        </div>
+      )}
     
 # federal favorite visual axis bulb festival health mask future then solution crumble pair library speak sunset citizen exotic what possible upon summer elder session
 # dftyq-bmjii-wuuyj-cwoh2-szifq-ifoja-lax7o-zz7te-hovnx-xddqm-4qe

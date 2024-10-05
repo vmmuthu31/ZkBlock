@@ -160,9 +160,22 @@ const TicTacToe = () => {
         )}
       </div>
       {gameOver && (
-        <button id="restart-button" onClick={restartGame}>
-          Play Again
-        </button>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            gap: '16px'
+          }}>
+            <button id="restart-button" onClick={restartGame}>
+              Play Again
+            </button>
+            <a href="/lobby">
+                <button id="restart-button" onClick={restartGame}
+                >
+                    back
+                </button> 
+            </a>
+        </div>
       )}
     </div>
   );
