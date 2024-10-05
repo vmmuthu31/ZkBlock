@@ -80,7 +80,9 @@ app.get("/getMaps/:playerId", async (req, res) => {
   }
 });
 
-
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
 
 // Start the server
 const PORT = process.env.PORT || 5000;
