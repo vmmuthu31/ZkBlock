@@ -8,7 +8,7 @@ import { useFrame, useGraph } from "@react-three/fiber";
 import { useAtom } from "jotai";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { SkeletonUtils } from "three-stdlib";
-import { useGrid } from "../hooks/useGrid";
+import { useGrid } from "../../hooks/useGrid";
 import { socket, userAtom } from "./SocketManager";
 import { motion } from "framer-motion-3d";
 
@@ -35,8 +35,12 @@ export function Avatar({
 
   // Load local animations
   const { animations: walkAnimation } = useGLTF("/animations/M_Walk_001.glb");
-  const { animations: danceAnimation } = useGLTF("/animations/M_Dances_001.glb");
-  const { animations: idleAnimation } = useGLTF("/animations/M_Standing_Idle_001.glb");
+  const { animations: danceAnimation } = useGLTF(
+    "/animations/M_Dances_001.glb"
+  );
+  const { animations: idleAnimation } = useGLTF(
+    "/animations/M_Standing_Idle_001.glb"
+  );
 
   const { actions } = useAnimations(
     [walkAnimation[0], idleAnimation[0], danceAnimation[0]],

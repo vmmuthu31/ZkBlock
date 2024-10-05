@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useAtom } from "jotai";
 import { useMemo, useRef, useState } from "react";
 import { SkeletonUtils } from "three-stdlib";
-import { useGrid } from "../hooks/useGrid";
+import { useGrid } from "../../hooks/useGrid";
 import { itemsAtom, mapAtom } from "./SocketManager";
 
 const ShopItem = ({ item, ...props }) => {

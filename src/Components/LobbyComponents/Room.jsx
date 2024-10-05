@@ -8,7 +8,7 @@ import {
 import { useThree } from "@react-three/fiber";
 import { atom, useAtom } from "jotai";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { useGrid } from "../hooks/useGrid";
+import { useGrid } from "../../hooks/useGrid";
 import { Avatar } from "./Avatar";
 import { Item } from "./Item";
 import { Shop } from "./Shop";

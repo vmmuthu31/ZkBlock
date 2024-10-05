@@ -2,7 +2,7 @@ import { useCursor, useGLTF } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { SkeletonUtils } from "three-stdlib";
-import { useGrid } from "../hooks/useGrid";
+import { useGrid } from "../../hooks/useGrid";
 import { mapAtom } from "./SocketManager";
 import { buildModeAtom } from "./UI";
 
