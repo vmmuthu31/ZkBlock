@@ -1,5 +1,6 @@
 import React from "react";
 import Hero from "../Components/Landing/Hero";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -24,9 +25,11 @@ function Home() {
         <img src="/list3.svg" alt="" className="w-full " />
       </div>
       <div className="flex justify-center  ">
-        <button className="bg-[#443E65] mt-12 px-5 py-3 rounded-lg text-[#ECE9FF]">
-          Start Building{" "}
-        </button>
+        <Link to="/game">
+          <button className="bg-[#443E65] mt-12 px-5 py-3 rounded-lg text-[#ECE9FF]">
+            Start Building{" "}
+          </button>
+        </Link>
         <img src="/crownright.svg" alt="" />
       </div>
 
@@ -62,9 +65,11 @@ function Home() {
             meets profit, and creativity knows no bounds.
           </p>
           <div>
-            <button className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]">
-              Start Creating Now{" "}
-            </button>
+            <Link to="/marketplace">
+              <button className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]">
+                Start Creating Now{" "}
+              </button>
+            </Link>
           </div>
         </div>
       </div>
