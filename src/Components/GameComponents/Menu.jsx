@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify"; // Import Toastify components
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import { Link } from "react-router-dom";
 
 // Utility function to detect if the user is on a mobile device
 const isMobileDevice = () => {
@@ -157,7 +158,9 @@ export const Menu = () => {
             </button>
           </div>
           <hr className="hr"></hr>
-          <button>Exit</button>
+          <a href="/lobby">
+            <button>Exit</button>
+          </a>
         </div>
       )}
     </div>

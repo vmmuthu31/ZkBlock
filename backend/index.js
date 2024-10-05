@@ -9,7 +9,23 @@ const cors = require("cors");
 // Express app setup
 const app = express();
 app.use(express.json());
-app.use(cors());
+const allowedOrigins = ["http://localhost:5173", "https://api.zkblock.xyz"];
+
+// CORS options
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
+
+// Use CORS middleware
+app.use(cors(corsOptions));
 
 
 // MongoDB connection
@@ -32,7 +48,8 @@ app.get("/", (req, res) => {
 
 // PORT setup (3000 takes priority)
 const PORT = process.env.PORT || 3000;
-const origin = process.env.CLIENT_URL || "http://localhost:5173";
+const origin =
+  process.env.CLIENT_URL || "http://localhost:5173" || "https://zkblock.xyz";
 
 // Starting HTTP server
 const server = app.listen(PORT, () =>
@@ -276,8 +293,6 @@ io.on("connection", (socket) => {
     console.log(ex); // Big try catch to avoid crashing the server (best would be to handle all errors properly...)
   }
 });
-
-
 
 // SHOP ITEMS
 const items = {
