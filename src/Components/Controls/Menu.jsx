@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
-import { useStore } from "../hooks/useStore.js";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes, faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
+import { useStore } from "../../hooks/useStore.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBars,
+  faTimes,
+  faExpand,
+  faCompress,
+} from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify"; // Import Toastify components
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 
@@ -28,7 +33,7 @@ export const Menu = () => {
   const playerId = "player_123"; // Example player ID
 
   const [selectedMap, setSelectedMap] = useState("");
-  const [isMenuVisible, setIsMenuVisible] = useState(false); 
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false); // Full-screen state
   const isMobile = isMobileDevice();
 
@@ -72,7 +77,7 @@ export const Menu = () => {
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.key === "Escape") {
-        setIsMenuVisible((prev) => !prev); 
+        setIsMenuVisible((prev) => !prev);
       }
     };
 
@@ -88,9 +93,9 @@ export const Menu = () => {
 
   useEffect(() => {
     if (isMenuVisible) {
-      document.body.style.cursor = "default"; 
+      document.body.style.cursor = "default";
     } else {
-      if (!isMobile) document.body.style.cursor = "none"; 
+      if (!isMobile) document.body.style.cursor = "none";
     }
   }, [isMenuVisible, isMobile]);
 
@@ -106,7 +111,11 @@ export const Menu = () => {
       {/* Buttons for full-screen and menu in top-right corner */}
       <div className="top-right-buttons">
         <button onClick={toggleFullScreen} className="fullscreen-button">
-          <FontAwesomeIcon icon={isFullScreen ? faCompress : faExpand} size="lg" /> {/* Full-screen icon */}
+          <FontAwesomeIcon
+            icon={isFullScreen ? faCompress : faExpand}
+            size="lg"
+          />{" "}
+          {/* Full-screen icon */}
         </button>
         <button onClick={toggleMenu} className="menu-button">
           <FontAwesomeIcon icon={faBars} size="lg" /> {/* Mobile menu icon */}
@@ -122,7 +131,9 @@ export const Menu = () => {
             </button>
           </div>
           <div className="menu-content">
-            <button onClick={() => saveWorld(cubes, worldId, playerId)}>Save</button>
+            <button onClick={() => saveWorld(cubes, worldId, playerId)}>
+              Save
+            </button>
             <button onClick={() => resetWorld()}>Reset</button>
             <hr className="hr"></hr>
 
@@ -131,7 +142,9 @@ export const Menu = () => {
               onChange={handleMapSelection}
               onFocus={handleDropdownFocus}
             >
-              <option value="" disabled>Select a map</option>
+              <option value="" disabled>
+                Select a map
+              </option>
               {availableMaps.map((map) => (
                 <option key={map.worldId} value={map.worldId}>
                   {map.worldId}

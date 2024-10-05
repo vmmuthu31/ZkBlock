@@ -1,4 +1,4 @@
-import { useStore } from "../hooks/useStore";
+import { useStore } from "../../hooks/useStore";
 import { Cube } from "./Cube.jsx";
 
 export const Cubes = () => {
