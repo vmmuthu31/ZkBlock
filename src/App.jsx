@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Game from "./Pages/Game.jsx";
-import Lobby from "./Pages/Lobby.jsx";
-import Home from "./Pages/Home.jsx";
-import NotFound from "./Pages/NotFound.jsx";
+import Game from "./GameComponents/Game.jsx";
+import Lobby from "./GameComponents/Lobby.jsx";
+import Home from "./GameComponents/Home.jsx";
+import NotFound from "./GameComponents/NotFound.jsx";
 
 function App() {
   return (
