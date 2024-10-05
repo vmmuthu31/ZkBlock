@@ -44,7 +44,8 @@ app.get("/", (req, res) => {
 
 // PORT setup (3000 takes priority)
 const PORT = process.env.PORT || 3000;
-const origin = process.env.CLIENT_URL || "http://localhost:5173";
+const origin =
+  process.env.CLIENT_URL || "http://localhost:5173" || "https://zkblock.xyz";
 
 // Starting HTTP server
 const server = app.listen(PORT, () =>
