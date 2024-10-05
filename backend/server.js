@@ -60,6 +60,28 @@ app.get("/loadMap/:playerId", async (req, res) => {
   }
 });
 
+app.get("/getMaps/:playerId", async (req, res) => {
+  const { playerId } = req.params;
+
+  try {
+    // Fetch all maps for the given playerId
+    const maps = await Map.find({ playerId });
+    if (maps.length > 0) {
+      const mapList = maps.map((map) => ({
+        worldId: map.worldId,
+        playerId: map.playerId,
+      }));
+      res.status(200).json({ mapList });
+    } else {
+      res.status(404).json({ message: "No maps found for this player" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Failed to retrieve maps", error });
+  }
+});
+
+
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

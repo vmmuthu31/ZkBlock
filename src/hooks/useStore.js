@@ -5,6 +5,7 @@ import axios from "axios"; // Axios for making API requests
 export const useStore = create((set) => ({
   texture: "dirt",
   cubes: [],
+  availableMaps: [], // Store available maps for the dropdown
 
   // Function to add a cube
   addCube: (x, y, z) => {
@@ -47,13 +48,34 @@ export const useStore = create((set) => ({
   },
 
   // Function to load the world map from MongoDB
-  loadWorld: async (playerId) => {
+  loadWorld: async (worldId, playerId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/loadMap/${playerId}`);
+      const response = await axios.get(`http://localhost:5000/loadMap/${playerId}?worldId=${worldId}`);
       set({ cubes: response.data.mapData });
       console.log("World loaded successfully");
     } catch (error) {
       console.error("Error loading world:", error);
+    }
+  },
+
+  // Function to load the last added world map for a player
+  loadLatestWorld: async (playerId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/loadLatestMap/${playerId}`);
+      set({ cubes: response.data.mapData });
+      console.log("Latest world loaded successfully");
+    } catch (error) {
+      console.error("Error loading latest world:", error);
+    }
+  },
+
+  // Function to fetch all maps for a player
+  fetchMaps: async (playerId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/getMaps/${playerId}`);
+      set({ availableMaps: response.data.mapList });
+    } catch (error) {
+      console.error("Error fetching maps:", error);
     }
   },
 
