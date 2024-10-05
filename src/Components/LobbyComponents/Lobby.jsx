@@ -138,10 +138,6 @@ export const Lobby = () => {
               <p className="text-xl font-semibold">Wallet Address</p>
               <p className="text-lg font-mono truncate">{'0xA12B3C4D5E6F7890G123H4I5J6K7L8M9N0PQR'}</p>
             </div>
-            
-            <div className="mt-4">
-              <p className="text-white">Player ID: {playerId}</p>
-            </div>
           </div>
 
           {/* Rooms Section */}
@@ -195,6 +191,21 @@ export const Lobby = () => {
                   className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                 >
                   <p className="text-uppercase font-bold text-lg">
+                    Marketplace 〽️💹
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`w-4 h-4 rounded-full ${
+                        "bg-green-500"
+                      }`}
+                    ></div>
+                      Buy and sell with ease on our marketplace
+                  </div>
+              </div>
+              <div
+                  className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                >
+                  <p className="text-uppercase font-bold text-lg">
                     Coming Soon !!
                   </p>
                   <div className="flex items-center gap-2">
@@ -224,7 +235,7 @@ export const Lobby = () => {
           bevelThickness={0.005}
           letterSpacing={0.012}
         >
-          MANSION
+          Zk
           <meshStandardMaterial color="white" />
         </Text3D>
 
@@ -239,7 +250,7 @@ export const Lobby = () => {
           bevelThickness={0.005}
           letterSpacing={0.012}
         >
-          WAWA
+          Block
           <meshStandardMaterial color="white" />
         </Text3D>
         <Skyscraper scale={1.32} />
