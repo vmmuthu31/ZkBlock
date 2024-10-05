@@ -8,6 +8,7 @@ export function FPV() {
   const touchStart = useRef({ x: 0, y: 0 });
   const isTouching = useRef(false);
   const rotationX = useRef(0); // Track camera's X rotation manually
+  const rotationY = useRef(0); // Track camera's Y rotation manually (no clamping)
 
   // Sensitivity for touch controls
   const sensitivity = 0.002;
@@ -30,15 +31,17 @@ export function FPV() {
       const deltaX = touch.clientX - touchStart.current.x;
       const deltaY = touch.clientY - touchStart.current.y;
 
-      // Swapping left-right for natural swipe behavior
-      camera.rotation.y -= deltaX * sensitivity; // Swiping left should rotate the view left and vice versa
+      // Horizontal rotation (Y-axis) - Continuous rotation, no clamping
+      rotationY.current -= deltaX * sensitivity; // Swiping left should rotate the view left and vice versa
 
       // Vertical rotation (X-axis) - Rotate up and down (clamped)
       rotationX.current -= deltaY * sensitivity;
       rotationX.current = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, rotationX.current)); // Clamp between -60 and 60 degrees
 
-      // Apply the vertical rotation using quaternion (safer than directly changing camera.rotation.x)
-      camera.quaternion.setFromEuler(new THREE.Euler(rotationX.current, camera.rotation.y, 0, "YXZ"));
+      // Apply the rotation using quaternion to avoid issues with Euler angles
+      const quaternion = new THREE.Quaternion();
+      quaternion.setFromEuler(new THREE.Euler(rotationX.current, rotationY.current, 0, "YXZ"));
+      camera.quaternion.copy(quaternion);
 
       // Update touch start to the new position for continuous dragging
       touchStart.current = { x: touch.clientX, y: touch.clientY };
