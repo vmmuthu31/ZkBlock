@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Confetti from "react-confetti"; // Import Confetti for a win celebration
 import "../../Xox.css"; // Assuming your CSS already exists
+import { UpdateGameData } from "../../Integration";
 
 // const playerId = "player_123"; // Example player ID
 
@@ -16,15 +17,20 @@ const TicTacToe = () => {
   // Function to update player's coins
   const updateCoins = async (goldIncrease, diamondIncrease) => {
     try {
-
       const playerId = localStorage.getItem("address");
+
+     
       // Get the current gold and diamonds first
       const goldResponse = await axios.get(`http://localhost:3000/api/getGoldCoins/${playerId}`);
       const diamondResponse = await axios.get(`http://localhost:3000/api/getDiamonds/${playerId}`);
 
       const newGold = goldResponse.data.gold_coins + goldIncrease;
       const newDiamonds = diamondResponse.data.diamonds + diamondIncrease;
-
+      try {
+        const res = await UpdateGameData(playerId, newGold, newDiamonds,"TIK TAC TOE", "GAME PROGRESS")
+      } catch (error) {
+        console.log("error",error);
+      }
       await axios.put(`http://localhost:3000/api/updateGoldCoins/${playerId}`, { gold_coins: newGold });
       await axios.put(`http://localhost:3000/api/updateDiamonds/${playerId}`, { diamonds: newDiamonds });
 
