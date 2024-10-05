@@ -12,6 +12,7 @@ import {
   mantaSepoliaTestnet,
 } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -29,14 +30,23 @@ function Header() {
         <RainbowKitProvider>
           <div className="bg-[#FFFFFF] text-white py-4 px-8 font-bricolage bg-opacity-[9%]">
             <div className="flex justify-between">
-              <div className="flex gap-3 items-center">
-                <img src="/logo.svg" alt="logo" className="h-[50px]" />
-                <h1 className="text-4xl font-bold  ">ZkBlock</h1>
-              </div>
+              <Link to="/">
+                <div className="flex gap-3 items-center">
+                  <img src="/logo.svg" alt="logo" className="h-[50px]" />
+                  <h1 className="text-4xl font-bold  ">ZkBlock</h1>
+                </div>
+              </Link>
               <div className="flex gap-8 items-center">
-                <p>Home</p>
-                <p>How it works</p>
-                <p>Marketplace</p>
+                <Link to="/">
+                  <p>Home</p>
+                </Link>
+                <a href="#works">
+                  <p>How it works</p>
+                </a>
+                <Link to="/marketplace">
+                  {" "}
+                  <p>Marketplace</p>
+                </Link>
                 <ConnectButton.Custom>
                   {({
                     account,

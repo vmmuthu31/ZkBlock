@@ -3,10 +3,13 @@ import Hero from "../Components/Landing/Hero";
 
 function Home() {
   return (
-    <div className="bg-[#EFFAFF] p-5 min-h-screen  pb-5">
+    <div className="bg-[#EFFAFF] font-bricolage p-5 min-h-screen pb-5">
       <Hero />
       <div>
-        <p className="text-[#312B55] font-bold text-3xl text-center mt-20">
+        <p
+          id="works"
+          className="text-[#312B55] font-bold text-3xl text-center mt-20"
+        >
           How It Works:Build, Play and Earn
         </p>
         <p className="text-center px-80 pt-4">
@@ -20,12 +23,14 @@ function Home() {
         <img src="/list2.svg" alt="" className="w-full " />
         <img src="/list3.svg" alt="" className="w-full " />
       </div>
-      <div className="flex justify-center mt-10 ">
-        <button className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]">
+      <div className="flex justify-center  ">
+        <button className="bg-[#443E65] mt-12 px-5 py-3 rounded-lg text-[#ECE9FF]">
           Start Building{" "}
         </button>
+        <img src="/crownright.svg" alt="" />
       </div>
-      <div className="flex items-center justify-center mt-10">
+
+      <div className="flex items-center justify-center mt-8">
         <div className="flex justify-between flex-col gap-10">
           <p className="text-[#312B55] text-[36px] font-bold">
             Trade, Buy, and Sell <br /> in the Marketplace.
@@ -38,10 +43,7 @@ function Home() {
             where builders meet traders.{" "}
           </p>
           <div>
-            <button
-              className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]"
-              p
-            >
+            <button className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]">
               Explore the Marketplace
             </button>
           </div>
@@ -60,10 +62,7 @@ function Home() {
             meets profit, and creativity knows no bounds.
           </p>
           <div>
-            <button
-              className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]"
-              p
-            >
+            <button className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]">
               Start Creating Now{" "}
             </button>
           </div>
