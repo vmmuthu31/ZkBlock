@@ -5,14 +5,14 @@ import { Ground } from "./Components/Ground";
 import { FPV as Fpv } from "./Components/FPV.jsx";
 import { Player } from "./Components/Player.jsx";
 import { Cubes } from "./Components/Cubes.jsx";
-import { TextureSelector } from "./components/TextureSelect.jsx";
-import { Menu } from "./components/Menu.jsx";
-import { Joystick } from "./components/Joystick.jsx";
+import { TextureSelector } from "./Components/TextureSelect.jsx";
+import { Menu } from "./Components/Menu.jsx";
+import { Joystick } from "./Components/Joystick.jsx";
 import { useState, useEffect } from "react";
 
 // Import Font Awesome icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExpand, faCompress } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExpand, faCompress } from "@fortawesome/free-solid-svg-icons";
 
 // Utility function to detect if the user is on a mobile device
 const isMobileDevice = () => {
@@ -24,7 +24,10 @@ const isMobileDevice = () => {
 
 function App() {
   // State to track joystick direction
-  const [joystickDirection, setJoystickDirection] = useState({ forward: 0, right: 0 });
+  const [joystickDirection, setJoystickDirection] = useState({
+    forward: 0,
+    right: 0,
+  });
 
   // State to manage full-screen status
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -77,7 +80,7 @@ function App() {
   const handleJump = () => {
     const jumpEvent = new Event("jump");
     window.dispatchEvent(jumpEvent); // Dispatch a custom jump event
-    console.log('Jump event dispatched'); // Debug to see if the event fires
+    console.log("Jump event dispatched"); // Debug to see if the event fires
   };
 
   return (
@@ -101,9 +104,9 @@ function App() {
         <>
           {/* Handle joystick movement by updating the state */}
           <Joystick onMove={setJoystickDirection} />
-          
+
           {/* Jump Button for mobile */}
-          <button 
+          <button
             onClick={handleJump}
             style={{
               position: "absolute",
@@ -128,9 +131,9 @@ function App() {
       {!isMobile && (
         <>
           <div className="pointer">+</div>
-          
+
           {/* Button to toggle fullscreen */}
-          <button 
+          <button
             onClick={toggleFullScreen}
             style={{
               position: "absolute",
@@ -141,10 +144,13 @@ function App() {
               color: "#fff",
               border: "none",
               borderRadius: "50%",
-              cursor: "pointer"
+              cursor: "pointer",
             }}
           >
-            <FontAwesomeIcon icon={isFullScreen ? faCompress : faExpand} size="lg" />
+            <FontAwesomeIcon
+              icon={isFullScreen ? faCompress : faExpand}
+              size="lg"
+            />
           </button>
         </>
       )}
