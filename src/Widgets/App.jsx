@@ -1,16 +1,15 @@
 import { Canvas } from "@react-three/fiber";
-// import { EffectComposer, N8AO } from "@react-three/postprocessing";
 import { ScrollControls, useProgress } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { Experience } from "./components/Experience";
-import { Loader } from "./components/Loader";
+import { Experience } from "../LobbyComponents/Experience";
+import { Loader } from "../LobbyComponents/Loader";
 import {
   SocketManager,
   itemsAtom,
   roomIDAtom,
-} from "./components/SocketManager";
-import { UI } from "./components/UI";
+} from "../LobbyComponents/SocketManager";
+import { UI } from "./Components/UI";
 
 function App() {
   const [roomID] = useAtom(roomIDAtom);
