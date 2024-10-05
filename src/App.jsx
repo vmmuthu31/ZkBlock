@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
 import Game from "./Pages/Game.jsx";
-import MainLobby from "./Widgets/MainLobby.jsx";
+import MainLobby from "./Components/Widgets/MainLobby.jsx";
 
 function App() {
   return (

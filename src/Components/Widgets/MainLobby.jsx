@@ -2,14 +2,14 @@ import { Canvas } from "@react-three/fiber";
 import { ScrollControls, useProgress } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { Experience } from "../Components/LobbyComponents/Experience";
-import { Loader } from "../Components/LobbyComponents/Loader";
+import { Experience } from "../LobbyComponents/Experience";
+import { Loader } from "../LobbyComponents/Loader";
 import {
   SocketManager,
   itemsAtom,
   roomIDAtom,
-} from "../Components/LobbyComponents/SocketManager";
-import { UI } from "../Components/LobbyComponents/UI";
+} from "../LobbyComponents/SocketManager";
+import { UI } from "../LobbyComponents/UI";
 
 function MainLobby() {
   const [roomID] = useAtom(roomIDAtom);
