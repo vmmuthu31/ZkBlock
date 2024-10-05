@@ -1,6 +1,6 @@
 import React from "react";
 import { VerificationLevel, IDKitWidget, useIDKit } from "@worldcoin/idkit";
-import { verify } from "../../hooks/verify";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function WorldIDconnect({ userType, onSuccessCallback }) {
@@ -22,13 +22,23 @@ function WorldIDconnect({ userType, onSuccessCallback }) {
   };
 
   const handleProof = async (result) => {
-    const data = await verify(result);
-    if (data.success) {
-      if (onSuccessCallback) {
-        onSuccessCallback();
+    try {
+      const response = await axios.post("http://localhost:3000/api/verify", {
+        proof: result.proof,
+        signal: result.signal,
+      });
+
+      if (response.data.success) {
+        if (onSuccessCallback) {
+          onSuccessCallback();
+        }
+        onSuccess(result);
+      } else {
+        throw new Error(`Verification failed: ${response.data.detail}`);
       }
-    } else {
-      throw new Error(`Verification failed: ${data.detail}`);
+    } catch (error) {
+      console.error("Error during verification:", error);
+      throw new Error(error.response?.data?.detail || "Verification failed");
     }
   };
 
