@@ -30,22 +30,21 @@ export const Lobby = () => {
   const playerId = "player_123"; // Example player ID
 
   useEffect(() => {
-    const fetchCoins = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/api/getOrCreateCoins/${playerId}`);
-        setCoins(response.data);
-      } catch (error) {
-        console.error("Error fetching coins:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCoins();
-
-    // Check if the user is already connected to a wallet
-    checkIfWalletIsConnected();
-  }, [playerId]);
+    if (walletAddress) {
+      // Fetch coins after wallet is connected
+      const fetchCoins = async () => {
+        try {
+          const response = await axios.get(`http://localhost:3000/api/getOrCreateCoins/${playerId}`);
+          setCoins(response.data);
+        } catch (error) {
+          console.error("Error fetching coins:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchCoins();
+    }
+  }, [walletAddress, playerId]);
 
   // Function to check if the wallet is already connected
   const checkIfWalletIsConnected = async () => {
@@ -125,19 +124,7 @@ export const Lobby = () => {
           <div className="text-center space-y-4">
             <h1 className="text-3xl text-white font-bold">Player Information</h1>
 
-            {/* Coins Display */}
-            <div className="flex justify-center gap-8 items-center">
-              <div className="p-4 bg-yellow-400 text-black rounded-lg shadow-lg">
-                <p className="text-xl font-semibold">Gold Coins</p>
-                <p className="text-2xl font-bold">{coins.gold_coins}</p>
-              </div>
-              <div className="p-4 bg-blue-400 text-black rounded-lg shadow-lg">
-                <p className="text-xl font-semibold">Diamonds</p>
-                <p className="text-2xl font-bold">{coins.diamonds}</p>
-              </div>
-            </div>
-
-            {/* Wallet Address Display or Connect Wallet Button */}
+            {/* Conditionally show wallet connection */}
             <div className="mt-4 p-4 bg-purple-600 text-white rounded-lg shadow-lg">
               <p className="text-xl font-semibold">Wallet Address</p>
               {walletAddress ? (
@@ -151,6 +138,20 @@ export const Lobby = () => {
                 </button>
               )}
             </div>
+
+            {/* Show coins only if the wallet is connected */}
+            {walletAddress && (
+              <div className="flex justify-center gap-8 items-center mt-4">
+                <div className="p-4 bg-yellow-400 text-black rounded-lg shadow-lg">
+                  <p className="text-xl font-semibold">Gold Coins</p>
+                  <p className="text-2xl font-bold">{coins.gold_coins}</p>
+                </div>
+                <div className="p-4 bg-blue-400 text-black rounded-lg shadow-lg">
+                  <p className="text-xl font-semibold">Diamonds</p>
+                  <p className="text-2xl font-bold">{coins.diamonds}</p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Rooms Section */}
@@ -158,6 +159,7 @@ export const Lobby = () => {
             className={`${
               isSafari ? "w-[310px] h-[416px] lg:w-[390px] lg:h-[514px]" : "w-[390px] h-[514px]"
             } max-w-full overflow-y-auto p-5 place-items-center pointer-events-none select-none`}
+            style={{ width: "90%", marginLeft: "6%"}}
           >
             <div className="w-full h-[300px] overflow-y-auto flex flex-col space-y-2">
               <h1 className="text-center text-white text-2xl font-bold">
