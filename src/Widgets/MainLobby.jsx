@@ -9,9 +9,10 @@ import {
   itemsAtom,
   roomIDAtom,
 } from "../LobbyComponents/SocketManager";
-import { UI } from "./Components/UI";
+import { UI } from "../LobbyComponents/UI";
 
-function App() {
+
+function MainLobby() {
   const [roomID] = useAtom(roomIDAtom);
 
   const { progress } = useProgress();
@@ -48,4 +49,4 @@ function App() {
   );
 }
 
-export default App;
+export default MainLobby;
