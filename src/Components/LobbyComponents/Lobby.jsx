@@ -163,7 +163,7 @@ export const Lobby = () => {
             } max-w-full overflow-y-auto p-5 place-items-center pointer-events-none select-none`}
             style={{ width: "90%", marginLeft: "6%"}}
           >
-            <div className="w-full h-[300px] overflow-y-auto flex flex-col space-y-2">
+            <div className="w-full h-[400px] overflow-y-auto flex flex-col space-y-2">
               <h1 className="text-center text-white text-2xl font-bold">
                 WELCOME TO
                 <br />
@@ -209,7 +209,26 @@ export const Lobby = () => {
                 </div>
               </div>
             </div>
+            <div>
           </div>
+          </div>
+          <a href="/game">
+            <button
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#dbcdc9',
+              color: '#1e1e1e',
+              boxShadow: '0px 5px 20px 0px #353535',
+            }}
+                className="p-4 rounded-full bg-slate-500 text-white drop-shadow-md cursor-pointer hover:bg-slate-800 transition-colors"
+              >
+                Start Building ⚒️
+            </button>
+            </a>
         </Html>
       </motion.group>
 
