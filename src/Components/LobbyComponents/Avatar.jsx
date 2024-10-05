@@ -16,7 +16,7 @@ const MOVEMENT_SPEED = 4;
 
 export function Avatar({
   id,
-  avatarUrl = "/models/model.glb", // Changed to load avatar from local path
+  avatarUrl = "/models/nagi.glb", // Changed to load avatar from local path
   ...props
 }) {
   const [chatMessage, setChatMessage] = useState("");
@@ -177,7 +177,7 @@ export function Avatar({
 }
 
 // Preload local models and animations
-useGLTF.preload("/models/model.glb");
+useGLTF.preload("/models/nagi.glb");
 useGLTF.preload("/animations/M_Walk_001.glb");
 useGLTF.preload("/animations/M_Standing_Idle_001.glb");
 useGLTF.preload("/animations/M_Dances_001.glb");
