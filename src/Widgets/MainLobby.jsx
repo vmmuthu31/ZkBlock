@@ -1,18 +1,18 @@
 import { Canvas } from "@react-three/fiber";
-// import { EffectComposer, N8AO } from "@react-three/postprocessing";
 import { ScrollControls, useProgress } from "@react-three/drei";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { Experience } from "./components/Experience";
-import { Loader } from "./components/Loader";
+import { Experience } from "../LobbyComponents/Experience";
+import { Loader } from "../LobbyComponents/Loader";
 import {
   SocketManager,
   itemsAtom,
   roomIDAtom,
-} from "./components/SocketManager";
-import { UI } from "./components/UI";
+} from "../LobbyComponents/SocketManager";
+import { UI } from "../LobbyComponents/UI";
 
-function App() {
+
+function MainLobby() {
   const [roomID] = useAtom(roomIDAtom);
 
   const { progress } = useProgress();
@@ -49,4 +49,4 @@ function App() {
   );
 }
 
-export default App;
+export default MainLobby;
