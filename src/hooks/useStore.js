@@ -1,6 +1,7 @@
 import create from "zustand";
 import { nanoid } from "nanoid";
 import axios from "axios"; // Axios for making API requests
+import { BASE_URL } from "../Constants/constant";
 
 export const useStore = create((set) => ({
   texture: "dirt",
@@ -36,7 +37,7 @@ export const useStore = create((set) => ({
   // Function to save the world map to MongoDB
   saveWorld: async (cubes, worldId, playerId) => {
     try {
-      await axios.post("http://localhost:5000/saveMap", {
+      await axios.post(`${BASE_URL}/saveMap`, {
         worldId,
         playerId,
         mapData: cubes,
@@ -50,7 +51,9 @@ export const useStore = create((set) => ({
   // Function to load the world map from MongoDB
   loadWorld: async (worldId, playerId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/loadMap/${playerId}?worldId=${worldId}`);
+      const response = await axios.get(
+        `${BASE_URL}/loadMap/${playerId}?worldId=${worldId}`
+      );
       set({ cubes: response.data.mapData });
       console.log("World loaded successfully");
     } catch (error) {
@@ -61,7 +64,7 @@ export const useStore = create((set) => ({
   // Function to load the last added world map for a player
   loadLatestWorld: async (playerId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/loadLatestMap/${playerId}`);
+      const response = await axios.get(`${BASE_URL}/loadLatestMap/${playerId}`);
       set({ cubes: response.data.mapData });
       console.log("Latest world loaded successfully");
     } catch (error) {
@@ -72,7 +75,7 @@ export const useStore = create((set) => ({
   // Function to fetch all maps for a player
   fetchMaps: async (playerId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/getMaps/${playerId}`);
+      const response = await axios.get(`${BASE_URL}/getMaps/${playerId}`);
       set({ availableMaps: response.data.mapList });
     } catch (error) {
       console.error("Error fetching maps:", error);
