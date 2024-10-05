@@ -11,6 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
 // MongoDB connection
 mongoose
   .connect("mongodb+srv://nagi:nagi@cluster0.ohv5gsc.mongodb.net/Zk-Block")
@@ -19,7 +20,10 @@ mongoose
 
 // Importing routes (assuming you have a routes directory with map.js)
 const mapRoutes = require("./routes/map");
+const coinRoutes = require("./routes/coins");  
+
 app.use("/", mapRoutes);
+app.use("/", coinRoutes);
 
 // Express root route
 app.get("/", (req, res) => {
