@@ -59,6 +59,13 @@ function App() {
     };
   }, []);
 
+  // Jump button handler
+  const handleJump = () => {
+    const jumpEvent = new Event("jump");
+    window.dispatchEvent(jumpEvent); // Dispatch a custom jump event
+    console.log('Jump event dispatched'); // Debug to see if the event fires
+  };
+
   return (
     <>
       <Canvas>
@@ -94,6 +101,26 @@ function App() {
         }}
       >
         <FontAwesomeIcon icon={isFullScreen ? faCompress : faExpand} size="lg" />
+      </button>
+
+      {/* Jump Button for mobile */}
+      <button 
+        onClick={handleJump}
+        style={{
+          position: "absolute",
+          bottom: "20px",
+          right: "20px",
+          padding: "15px 20px",
+          fontSize: "16px",
+          background: "#000",
+          color: "#fff",
+          border: "none",
+          borderRadius: "10px",
+          cursor: "pointer",
+          zIndex: 10,
+        }}
+      >
+        Jump
       </button>
     </>
   );

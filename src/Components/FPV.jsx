@@ -30,8 +30,8 @@ export function FPV() {
       const deltaX = touch.clientX - touchStart.current.x;
       const deltaY = touch.clientY - touchStart.current.y;
 
-      // Horizontal rotation (Y-axis) - Rotate around the world's up axis
-      camera.rotation.y -= deltaX * sensitivity;
+      // Swapping left-right for natural swipe behavior
+      camera.rotation.y -= deltaX * sensitivity; // Swiping left should rotate the view left and vice versa
 
       // Vertical rotation (X-axis) - Rotate up and down (clamped)
       rotationX.current -= deltaY * sensitivity;
@@ -40,7 +40,7 @@ export function FPV() {
       // Apply the vertical rotation using quaternion (safer than directly changing camera.rotation.x)
       camera.quaternion.setFromEuler(new THREE.Euler(rotationX.current, camera.rotation.y, 0, "YXZ"));
 
-      // Update touch start to the new position
+      // Update touch start to the new position for continuous dragging
       touchStart.current = { x: touch.clientX, y: touch.clientY };
     };
 
@@ -48,7 +48,7 @@ export function FPV() {
       isTouching.current = false;
     };
 
-    // Attach event listeners to handle touch events
+    // Attach event listeners to handle touch events on mobile
     gl.domElement.addEventListener("touchstart", handleTouchStart);
     gl.domElement.addEventListener("touchmove", handleTouchMove);
     gl.domElement.addEventListener("touchend", handleTouchEnd);
