@@ -7,3 +7,4 @@ const mapSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Map", mapSchema);
+

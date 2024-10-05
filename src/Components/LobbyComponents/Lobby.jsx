@@ -5,6 +5,7 @@ import {
   Text3D,
   useFont,
 } from "@react-three/drei";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion-3d";
 import { useAtom } from "jotai";
 import { Suspense, useMemo, useRef } from "react";
@@ -13,6 +14,8 @@ import { Skyscraper } from "./Skyscraper";
 import { mapAtom, roomIDAtom, roomsAtom, socket } from "./SocketManager";
 import { Tablet } from "./Tablet";
 import { avatarUrlAtom } from "./UI";
+import axios from "axios";
+
 let firstLoad = true;
 export const Lobby = () => {
   const [rooms] = useAtom(roomsAtom);
@@ -26,6 +29,28 @@ export const Lobby = () => {
     setMap(null);
     setRoomID(roomId);
   };
+  const [coins, setCoins] = useState({ gold_coins: 0, diamonds: 0 }); // Initial state for coins
+  const [loading, setLoading] = useState(true);
+
+  const worldId = "world_1";  // Example world ID
+  const playerId = "player_123";  // Example player ID
+  
+  // Fetch or create player coins when the component mounts
+  useEffect(() => {
+    const fetchCoins = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/getOrCreateCoins/${playerId}`);
+        setCoins(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching coins:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCoins();
+  }, [playerId]);
 
   const isMobile = window.innerWidth < 1024;
 
@@ -93,21 +118,42 @@ export const Lobby = () => {
           center
           scale={0.121}
         >
-          <div
-            className={`${
-              isSafari
-                ? "w-[310px] h-[416px] lg:w-[390px] lg:h-[514px]"
-                : "w-[390px] h-[514px]"
-            }  max-w-full  overflow-y-auto p-5  place-items-center pointer-events-none select-none`}
-          >
-            <div className="w-full overflow-y-auto flex flex-col space-y-2">
+          <div className="text-center space-y-4">
+            <h1 className="text-3xl text-white font-bold">Player Information</h1>
+            
+            {/* Coins Display */}
+            <div className="flex justify-center gap-8 items-center">
+              <div className="p-4 bg-yellow-400 text-black rounded-lg shadow-lg">
+                <p className="text-xl font-semibold">Gold Coins</p>
+                <p className="text-2xl font-bold">{coins.gold_coins}</p>
+              </div>
+              <div className="p-4 bg-blue-400 text-black rounded-lg shadow-lg">
+                <p className="text-xl font-semibold">Diamonds</p>
+                <p className="text-2xl font-bold">{coins.diamonds}</p>
+              </div>
+            </div>
+            
+            {/* Wallet Address Display */}
+            <div className="mt-4 p-4 bg-purple-600 text-white rounded-lg shadow-lg">
+              <p className="text-xl font-semibold">Wallet Address</p>
+              <p className="text-lg font-mono truncate">{'0xA12B3C4D5E6F7890G123H4I5J6K7L8M9N0PQR'}</p>
+            </div>
+            
+            <div className="mt-4">
+              <p className="text-white">Player ID: {playerId}</p>
+            </div>
+          </div>
+
+          {/* Rooms Section */}
+          <div className={`${isSafari ? "w-[310px] h-[416px] lg:w-[390px] lg:h-[514px]" : "w-[390px] h-[514px]"} max-w-full overflow-y-auto p-5 place-items-center pointer-events-none select-none`}>
+            <div className="w-full h-[300px] overflow-y-auto flex flex-col space-y-2">
               <h1 className="text-center text-white text-2xl font-bold">
                 WELCOME TO
                 <br />
-                WAWA MANSION
+                ZK Block 🦄
               </h1>
               <p className="text-center text-white">
-                Please select a room to relax
+                Please select a room to relax or Build ⚒️
               </p>
               {rooms.map((room) => (
                 <div
@@ -128,9 +174,43 @@ export const Lobby = () => {
                   </div>
                 </div>
               ))}
+              <a href="/xox">
+                <div
+                    className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                  >
+                    <p className="text-uppercase font-bold text-lg">
+                      Tik Tic Toc
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-4 h-4 rounded-full ${
+                          "bg-green-500"
+                        }`}
+                      ></div>
+                      Ai in this room
+                    </div>
+                </div>
+              </a>
+              <div
+                  className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
+                >
+                  <p className="text-uppercase font-bold text-lg">
+                    Coming Soon !!
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={`w-4 h-4 rounded-full ${
+                        "bg-orange-500"
+                      }`}
+                    ></div>
+                    Keep Plying 🙂
+                  </div>
+              </div>
+                
             </div>
           </div>
         </Html>
+
       </motion.group>
       <group position-z={-8} rotation-y={Math.PI / 6}>
         <Text3D
