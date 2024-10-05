@@ -1,10 +1,21 @@
-import { useStore } from "../hooks/useStore.js"
+import { useStore } from "../hooks/useStore.js";
 
 export const Menu = () => {
-    const [saveWorld, resetWorld] = useStore((state) => [state.saveWorld, state.resetWorld])
+  const [saveWorld, resetWorld, loadWorld] = useStore((state) => [
+    state.saveWorld,
+    state.resetWorld,
+    state.loadWorld,
+  ]);
+  const cubes = useStore((state) => state.cubes); // Get cubes from the store
 
-    return (<div className="menu absolute">
-        <button onClick={()=> saveWorld()}>Save</button>
-        <button onClick={()=> resetWorld()}>Reset</button>
-    </div>)
-}
+  const worldId = "world_1"; // Example world ID
+  const playerId = "player_123"; // Example player ID
+
+  return (
+    <div className="menu absolute">
+      <button onClick={() => saveWorld(cubes, worldId, playerId)}>Save</button>
+      <button onClick={() => resetWorld()}>Reset</button>
+      <button onClick={() => loadWorld(playerId)}>Load</button> {/* Load button */}
+    </div>
+  );
+};
