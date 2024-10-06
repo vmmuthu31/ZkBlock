@@ -4,7 +4,8 @@ import { AvatarCreator } from "@readyplayerme/react-avatar-creator";
 import { motion } from "framer-motion";
 import { roomItemsAtom } from "./Room";
 import { roomIDAtom, socket } from "./SocketManager";
-
+import { Getty, Mint } from "../../Integration";
+import { ethers } from "ethers";
 // Create an atom for storing the avatar model URL
 export const avatarUrlAtom = atom("/models/nagi.glb"); // Default avatar model
 export const buildModeAtom = atom(false);
@@ -110,23 +111,94 @@ export const UI = () => {
     // Add more models here as needed
   ];
 
+  const [outputString, setOutputString] = useState('');
+
+  const convertHexToString = (hex) => {
+    try {
+      // Remove the '0x' prefix if present
+      const cleanHex = hex.startsWith('0x') ? hex.slice(2) : hex;
+
+      // Convert the hex string to a buffer (array of bytes)
+      const bytesArray = ethers.utils.arrayify(`0x${cleanHex}`);
+
+      // Convert the bytes array to a string
+      const resultString = ethers.utils.toUtf8String(bytesArray);
+console.log("result string",resultString);
+      // Set the output string in the state
+      setOutputString(resultString);
+      return resultString;
+    } catch (error) {
+      console.error('Error while converting hex to string:', error);
+      setOutputString('Invalid hex input!');
+    }
+  };
+
   // Function to handle character selection
   const selectCharacter = (characterFile) => {
     setAvatarUrl(characterFile); // Update the avatar URL with the selected model
   };
 
   // Function to send message to chatbot
-  const sendToChatBot = () => {
-    if (userMessage.trim() !== "") {
-      const newMessages = [
-        ...messages,
-        { sender: "user", text: userMessage },
-        { sender: "bot", text: "Hello, how can I assist you?" }, // Simulated AI response
-      ];
-      setMessages(newMessages);
-      setUserMessage(""); // Clear input field
-    }
+  const sendToChatBot = async () => {
+console.log("user message",userMessage);
+const res = await Mint(userMessage);
+
+console.log("res",res);
+const len = res.length;
+console.log("res last", res[len-1]);
+const last = res[len-1];
+const reqID = last["requestId"];
+
+const reqIdInString = reqID.toString();
+
+console.log("req in string", reqIdInString);
+
+localStorage.setItem("reqId", reqIdInString);
+console.log("calling read");
+
+const answer = await Getty(reqIdInString)
+
+console.log("answer",answer)
+const valans = answer["output"]
+
+console.log("val",valans)
+console.log("val",valans.toString())
+const result =  convertHexToString(answer);
+
+    // if (userMessage.trim() !== "") {
+    //   const newMessages = [
+    //     ...messages,
+    //     { sender: "user", text: userMessage },
+    //     { sender: "bot", text: "Hello, how can I assist you?" }, // Simulated AI response
+    //   ];
+    //   setMessages(newMessages);
+    //   setUserMessage(""); // Clear input field
+    // }
   };
+
+
+  const Refresh = async() => {
+    try {
+      const val = localStorage.getItem("reqId")
+      const res = await Getty(val);
+      const valans = res["output"]
+
+      console.log("val",valans)
+      console.log("val",valans.toString())
+   const mes =   convertHexToString(valans.toString())
+
+   const newMessages = [
+    ...messages,
+    { sender: "user", text: userMessage },
+    { sender: "bot", text: mes }, // Simulated AI response
+  ];
+  setMessages(newMessages);
+  setUserMessage(""); // Clear input field
+
+    } catch (error) {
+      console.log("error in refresh");
+    }
+  }
 
   return (
     <>
@@ -309,6 +381,12 @@ export const UI = () => {
                 onClick={sendToChatBot}
               >
                 Send
+              </button>
+              <button
+                className="bg-blue-500 text-white p-2 rounded-lg"
+                onClick={Refresh}
+              >
+                Refresh
               </button>
             </div>
           </div>
