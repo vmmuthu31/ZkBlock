@@ -123,7 +123,7 @@ export const UpdateGameData = async (player, gold, diamond, mapId, data) => {
       : ethers.providers.getDefaultProvider();
   const signer = provider.getSigner();
 
-  const contractaddress = CONTRACT_ADDRESSES[network.chainId];
+  const contractaddress = network !== undefined ? CONTRACT_ADDRESSES[network.chainId] : manta_address;
   const contract = new ethers.Contract(contractaddress, game, signer);
 
   const tx = await contract.updatePlayerAndAddData(
