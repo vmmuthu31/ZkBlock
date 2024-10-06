@@ -53,7 +53,7 @@ As part of the hackathon, zkBlock integrates the following platforms and protoco
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/25451db7-52c2-41bb-9f7c-597202250409)
 
-![image](https://github.com/user-attachments/assets/0401f985-bc71-4543-be60-766356178c35)
+![image](https://github.com/user-attachments/assets/614879b6-05f0-4d94-8637-63a0433c6bb0)
 
 ![image](https://github.com/user-attachments/assets/4f2494e2-5308-4d8e-8a82-12204aad4c48)
 
