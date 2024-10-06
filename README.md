@@ -49,6 +49,13 @@ As part of the hackathon, zkBlock integrates the following platforms and protoco
 - **Scroll:** Powers zk-rollups for low-cost, efficient transactions, especially for NFT minting and marketplace activities.
 - **Worldcoin:** Enhances user verification and engagement with secure identity validation.
 
+## Video Demo
+
+https://www.youtube.com/watch?v=lWEhz9f5r5k
+
+## Website 
+
+https://www.zkblock.xyz
 
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/25451db7-52c2-41bb-9f7c-597202250409)
