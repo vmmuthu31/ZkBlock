@@ -5,10 +5,10 @@ contract OnChainGame {
     struct Player {
         uint256 gold;
         uint256 diamond;
-        mapping(uint256 => string[]) mapIdToData; // mapId => array of strings
+        mapping(uint256 => string[]) mapIdToData; 
     }
 
-    mapping(address => Player) public players; // player address => Player
+    mapping(address => Player) public players; 
 
     event PlayerUpdated(address indexed player, uint256 gold, uint256 diamond);
     event MapDataAdded(address indexed player, uint256 indexed mapId, string data);
@@ -23,14 +23,9 @@ contract OnChainGame {
      * @param data The string data to be added to the mapId's array.
      */
     function updatePlayerAndAddData(address player, uint256 goldAmount, uint256 diamondAmount, uint256 mapId, string memory data) public {
-        // Update player's resources
         players[player].gold = goldAmount;
         players[player].diamond = diamondAmount;
-
-        // Add map data for the player
         players[player].mapIdToData[mapId].push(data);
-
-        // Emit events for both actions
         emit PlayerUpdated(player, goldAmount, diamondAmount);
         emit MapDataAdded(player, mapId, data);
     }
@@ -81,7 +76,7 @@ contract OnChainGame {
             if (playerData.mapIdToData[i].length > 0 || mapIdCount > 0) {
                 mapIdCount++;
             } else if (mapIdCount > 0) {
-                break; // Assuming mapIds are sequential without gaps
+                break; 
             }
         }
 

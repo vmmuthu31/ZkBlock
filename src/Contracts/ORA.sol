@@ -5,7 +5,6 @@ pragma solidity ^0.8.9;
 import "./interfaces/IAIOracle.sol";
 import "./AIOracleCallbackReceiver.sol";
 
-// this contract is for ai.ora.io website
 contract GamePrompt is AIOracleCallbackReceiver {
 
     event promptsUpdated(
@@ -37,10 +36,7 @@ contract GamePrompt is AIOracleCallbackReceiver {
         _;
     }
 
-    // requestId => AIOracleRequest
     mapping(uint256 => AIOracleRequest) public requests;
-
-    // modelId => callback gasLimit
     mapping(uint256 => uint64) public callbackGasLimit;
 
     /// @notice Initialize the contract, binding it to a specified AIOracle.
@@ -52,16 +48,12 @@ contract GamePrompt is AIOracleCallbackReceiver {
         callbackGasLimit[modelId] = gasLimit;
     }
 
-    // uint256: modelID => (string: prompt => string: output)
     mapping(uint256 => mapping(string => string)) public prompts;
-
     function getAIResult(uint256 modelId, string calldata prompt) external view returns (string memory) {
         return prompts[modelId][prompt];
     }
 
-    // the callback function, only the AI Oracle can call this function
     function aiOracleCallback(uint256 requestId, bytes calldata output, bytes calldata callbackData) external override onlyAIOracleCallback() {
-        // since we do not set the callbackData in this example, the callbackData should be empty
         AIOracleRequest storage request = requests[requestId];
         require(request.sender != address(0), "request not exists");
         request.output = output;
@@ -75,7 +67,6 @@ contract GamePrompt is AIOracleCallbackReceiver {
 
     function calculateAIResult(uint256 modelId, string calldata prompt) payable external {
         bytes memory input = bytes(prompt);
-        // we do not need to set the callbackData in this example
         uint256 requestId = aiOracle.requestCallback{value: msg.value}(
             modelId, input, address(this), callbackGasLimit[modelId], ""
         );
