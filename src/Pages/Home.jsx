@@ -25,7 +25,7 @@ function Home() {
         <img src="/list3.svg" alt="" className="w-full " />
       </div>
       <div className="flex justify-center  ">
-        <Link to="/game">
+        <Link to="/lobby">
           <button className="bg-[#443E65] mt-12 px-5 py-3 rounded-lg text-[#ECE9FF]">
             Start Building{" "}
           </button>
@@ -46,9 +46,11 @@ function Home() {
             where builders meet traders.{" "}
           </p>
           <div>
-            <button className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]">
-              Explore the Marketplace
-            </button>
+            <Link to="/marketplace">
+              <button className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]">
+                Explore the Marketplace
+              </button>
+            </Link>
           </div>
         </div>
         <img src="/human.svg" alt="" className="w-1/2" />
@@ -65,7 +67,7 @@ function Home() {
             meets profit, and creativity knows no bounds.
           </p>
           <div>
-            <Link to="/marketplace">
+            <Link to="/lobby">
               <button className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]">
                 Start Creating Now{" "}
               </button>

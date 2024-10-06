@@ -6,6 +6,8 @@ import { roomItemsAtom } from "./Room";
 import { roomIDAtom, socket } from "./SocketManager";
 import { Getty, Mint } from "../../Integration";
 import { ethers } from "ethers";
+import { MdOutlineAutorenew } from "react-icons/md";
+
 // Create an atom for storing the avatar model URL
 export const avatarUrlAtom = atom("/models/vitalik_buterin.glb"); // Default avatar model
 export const buildModeAtom = atom(false);
@@ -68,7 +70,9 @@ export const UI = () => {
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [shopMode, setShopMode] = useAtom(shopModeAtom);
   const [draggedItem, setDraggedItem] = useAtom(draggedItemAtom);
-  const [draggedItemRotation, setDraggedItemRotation] = useAtom(draggedItemRotationAtom);
+  const [draggedItemRotation, setDraggedItemRotation] = useAtom(
+    draggedItemRotationAtom
+  );
   const [_roomItems, setRoomItems] = useAtom(roomItemsAtom);
   const [passwordMode, setPasswordMode] = useState(false);
   const [avatarMode, setAvatarMode] = useState(false);
@@ -112,25 +116,25 @@ export const UI = () => {
     // Add more models here as needed
   ];
 
-  const [outputString, setOutputString] = useState('');
+  const [outputString, setOutputString] = useState("");
 
   const convertHexToString = (hex) => {
     try {
       // Remove the '0x' prefix if present
-      const cleanHex = hex.startsWith('0x') ? hex.slice(2) : hex;
+      const cleanHex = hex.startsWith("0x") ? hex.slice(2) : hex;
 
       // Convert the hex string to a buffer (array of bytes)
       const bytesArray = ethers.utils.arrayify(`0x${cleanHex}`);
 
       // Convert the bytes array to a string
       const resultString = ethers.utils.toUtf8String(bytesArray);
-console.log("result string",resultString);
+      console.log("result string", resultString);
       // Set the output string in the state
       setOutputString(resultString);
       return resultString;
     } catch (error) {
-      console.error('Error while converting hex to string:', error);
-      setOutputString('Invalid hex input!');
+      console.error("Error while converting hex to string:", error);
+      setOutputString("Invalid hex input!");
     }
   };
 
@@ -141,30 +145,30 @@ console.log("result string",resultString);
 
   // Function to send message to chatbot
   const sendToChatBot = async () => {
-console.log("user message",userMessage);
-const res = await Mint(userMessage);
+    console.log("user message", userMessage);
+    const res = await Mint(userMessage);
 
-console.log("res",res);
-const len = res.length;
-console.log("res last", res[len-1]);
-const last = res[len-1];
-const reqID = last["requestId"];
+    console.log("res", res);
+    const len = res.length;
+    console.log("res last", res[len - 1]);
+    const last = res[len - 1];
+    const reqID = last["requestId"];
 
-const reqIdInString = reqID.toString();
+    const reqIdInString = reqID.toString();
 
-console.log("req in string", reqIdInString);
+    console.log("req in string", reqIdInString);
 
-localStorage.setItem("reqId", reqIdInString);
-console.log("calling read");
+    localStorage.setItem("reqId", reqIdInString);
+    console.log("calling read");
 
-const answer = await Getty(reqIdInString)
+    const answer = await Getty(reqIdInString);
 
-console.log("answer",answer)
-const valans = answer["output"]
+    console.log("answer", answer);
+    const valans = answer["output"];
 
-console.log("val",valans)
-console.log("val",valans.toString())
-const result =  convertHexToString(answer);
+    console.log("val", valans);
+    console.log("val", valans.toString());
+    const result = convertHexToString(answer);
 
     // if (userMessage.trim() !== "") {
     //   const newMessages = [
@@ -177,29 +181,27 @@ const result =  convertHexToString(answer);
     // }
   };
 
-
-  const Refresh = async() => {
+  const Refresh = async () => {
     try {
-      const val = localStorage.getItem("reqId")
+      const val = localStorage.getItem("reqId");
       const res = await Getty(val);
-      const valans = res["output"]
+      const valans = res["output"];
 
-      console.log("val",valans)
-      console.log("val",valans.toString())
-   const mes =   convertHexToString(valans.toString())
+      console.log("val", valans);
+      console.log("val", valans.toString());
+      const mes = convertHexToString(valans.toString());
 
-   const newMessages = [
-    ...messages,
-    { sender: "user", text: userMessage },
-    { sender: "bot", text: mes }, // Simulated AI response
-  ];
-  setMessages(newMessages);
-  setUserMessage(""); // Clear input field
-
+      const newMessages = [
+        ...messages,
+        { sender: "user", text: userMessage },
+        { sender: "bot", text: mes }, // Simulated AI response
+      ];
+      setMessages(newMessages);
+      setUserMessage(""); // Clear input field
     } catch (error) {
       console.log("error in refresh");
     }
-  }
+  };
 
   return (
     <>
@@ -383,12 +385,10 @@ const result =  convertHexToString(answer);
               >
                 Send
               </button>
-              <button
-                className="bg-blue-500 text-white p-2 rounded-lg"
+              <MdOutlineAutorenew
+                className="bg-blue-500 w-10 h-10 text-white p-2 rounded-lg"
                 onClick={Refresh}
-              >
-                Refresh
-              </button>
+              />
             </div>
           </div>
         )}

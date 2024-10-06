@@ -1,4 +1,10 @@
-import { AccumulativeShadows, Html, RandomizedLight, Text3D, useFont } from "@react-three/drei";
+import {
+  AccumulativeShadows,
+  Html,
+  RandomizedLight,
+  Text3D,
+  useFont,
+} from "@react-three/drei";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion-3d";
 import { useAtom } from "jotai";
@@ -26,15 +32,16 @@ export const Lobby = () => {
   const [loading, setLoading] = useState(true);
   const [walletAddress, setWalletAddress] = useState(""); // State for wallet address
 
-
-  const [playerId, setPlayerId] = useState('')
+  const [playerId, setPlayerId] = useState("");
 
   useEffect(() => {
     if (walletAddress) {
       // Fetch coins after wallet is connected
       const fetchCoins = async () => {
         try {
-          const response = await axios.get(`http://localhost:3000/api/getOrCreateCoins/${playerId}`);
+          const response = await axios.get(
+            `http://localhost:3000/api/getOrCreateCoins/${playerId}`
+          );
           setCoins(response.data);
         } catch (error) {
           console.error("Error fetching coins:", error);
@@ -50,7 +57,9 @@ export const Lobby = () => {
   const checkIfWalletIsConnected = async () => {
     if (window.ethereum) {
       try {
-        const accounts = await window.ethereum.request({ method: "eth_accounts" });
+        const accounts = await window.ethereum.request({
+          method: "eth_accounts",
+        });
         if (accounts.length > 0) {
           setWalletAddress(accounts[0]);
         }
@@ -64,10 +73,12 @@ export const Lobby = () => {
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
         setWalletAddress(accounts[0]); // Set the connected wallet address
-        setPlayerId(accounts[0])
-        localStorage.setItem("address",accounts[0]);
+        setPlayerId(accounts[0]);
+        localStorage.setItem("address", accounts[0]);
       } catch (error) {
         console.error("Error connecting to wallet:", error);
       }
@@ -91,8 +102,20 @@ export const Lobby = () => {
         position={[0, 0, 0]}
         color="pink"
       >
-        <RandomizedLight amount={4} radius={9} intensity={0.55} ambient={0.25} position={[5, 5, -20]} />
-        <RandomizedLight amount={4} radius={5} intensity={0.25} ambient={0.55} position={[-5, 5, -20]} />
+        <RandomizedLight
+          amount={4}
+          radius={9}
+          intensity={0.55}
+          ambient={0.25}
+          position={[5, 5, -20]}
+        />
+        <RandomizedLight
+          amount={4}
+          radius={5}
+          intensity={0.25}
+          ambient={0.55}
+          position={[-5, 5, -20]}
+        />
       </AccumulativeShadows>
     ),
     []
@@ -122,9 +145,16 @@ export const Lobby = () => {
         }}
       >
         <Tablet scale={0.03} rotation-x={Math.PI / 2} />
-        <Html position={[0, 0.17, 0.11]} transform={!isSafari} center scale={0.121}>
+        <Html
+          position={[0, 0.17, 0.11]}
+          transform={!isSafari}
+          center
+          scale={0.121}
+        >
           <div className="text-center space-y-4">
-            <h1 className="text-3xl text-white font-bold">Player Information</h1>
+            <h1 className="text-3xl text-white font-bold">
+              Player Information
+            </h1>
 
             {/* Conditionally show wallet connection */}
             <div className="mt-4 p-4 bg-purple-600 text-white rounded-lg shadow-lg">
@@ -159,9 +189,11 @@ export const Lobby = () => {
           {/* Rooms Section */}
           <div
             className={`${
-              isSafari ? "w-[310px] h-[416px] lg:w-[390px] lg:h-[514px]" : "w-[390px] h-[514px]"
+              isSafari
+                ? "w-[310px] h-[416px] lg:w-[390px] lg:h-[514px]"
+                : "w-[390px] h-[514px]"
             } max-w-full overflow-y-auto p-5 place-items-center pointer-events-none select-none`}
-            style={{ width: "90%", marginLeft: "6%"}}
+            style={{ width: "90%", marginLeft: "6%" }}
           >
             <div className="w-full h-[400px] overflow-y-auto flex flex-col space-y-2">
               <h1 className="text-center text-white text-2xl font-bold">
@@ -169,17 +201,23 @@ export const Lobby = () => {
                 <br />
                 ZK Block 🦄
               </h1>
-              <p className="text-center text-white">Please select a room to relax or Build ⚒️</p>
+              <p className="text-center text-white">
+                Please select a room to relax or Build ⚒️
+              </p>
               {rooms.map((room) => (
                 <div
                   key={room.id}
                   className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto"
                   onClick={() => joinRoom(room.id)}
                 >
-                  <p className="text-uppercase font-bold text-lg">{room.name}</p>
+                  <p className="text-uppercase font-bold text-lg">
+                    {room.name}
+                  </p>
                   <div className="flex items-center gap-2">
                     <div
-                      className={`w-4 h-4 rounded-full ${room.nbCharacters > 0 ? "bg-green-500" : "bg-orange-500"}`}
+                      className={`w-4 h-4 rounded-full ${
+                        room.nbCharacters > 0 ? "bg-green-500" : "bg-orange-500"
+                      }`}
                     ></div>
                     {room.nbCharacters} people in this room
                   </div>
@@ -187,48 +225,55 @@ export const Lobby = () => {
               ))}
               <a href="/xox">
                 <div className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto">
-                  <p className="text-uppercase font-bold text-lg">Tik Tic Toc</p>
+                  <p className="text-uppercase font-bold text-lg">
+                    Tik Tic Toc
+                  </p>
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded-full bg-green-500"></div>
                     Ai in this room
                   </div>
                 </div>
               </a>
-              <div className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto">
-                <p className="text-uppercase font-bold text-lg">Marketplace 〽️💹</p>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full bg-green-500"></div>
-                  Buy and sell with ease on our marketplace
+              <a href="/marketplace">
+                <div className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto">
+                  <p className="text-uppercase font-bold text-lg">
+                    Marketplace 〽️💹
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-green-500"></div>
+                    Buy and sell with ease on our marketplace
+                  </div>
                 </div>
-              </div>
+              </a>
               <div className="p-4 rounded-lg bg-slate-800 bg-opacity-70 text-white hover:bg-slate-950 transition-colors cursor-pointer pointer-events-auto">
-                <p className="text-uppercase font-bold text-lg">Coming Soon !!</p>
+                <p className="text-uppercase font-bold text-lg">
+                  Coming Soon !!
+                </p>
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-full bg-orange-500"></div>
                   Keep Playing 🙂
                 </div>
               </div>
             </div>
-            <div>
-          </div>
+            <div></div>
           </div>
           <a href="/game">
             <button
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#dbcdc9',
-              color: '#1e1e1e',
-              boxShadow: '0px 5px 20px 0px #353535',
-            }}
-                className="p-4 rounded-full bg-slate-500 text-white drop-shadow-md cursor-pointer hover:bg-slate-800 transition-colors"
-              >
-                Start Building ⚒️
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "#dbcdc9",
+                color: "#1e1e1e",
+                boxShadow: "0px 5px 20px 0px #353535",
+              }}
+              className="p-4 rounded-full bg-slate-500 text-white drop-shadow-md cursor-pointer hover:bg-slate-800 transition-colors"
+            >
+              Start Building ⚒️
             </button>
-            </a>
+          </a>
         </Html>
       </motion.group>
 
