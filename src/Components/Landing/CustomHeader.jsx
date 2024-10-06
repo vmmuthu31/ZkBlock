@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function CustomHeader() {
   return (
-    <div className="bg-[#2C2652] text-white py-4 px-8 font-bricolage  mx-5 mt-5 rounded-t-2xl">
+    <div className="bg-[#2C2652] text-white py-4 px-8 font-bricolage  mx-5  rounded-t-2xl">
       <div className="flex justify-between">
         <Link to="/">
           <div className="flex gap-3 items-center">

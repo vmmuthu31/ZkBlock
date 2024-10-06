@@ -50,50 +50,55 @@ const TicTacToe = () => {
   }, [currentPlayer, gameOver]);
 
   const handleCellClick = (index) => {
-    if (gameOver || board[index] !== "" || currentPlayer !== "X") {
-      return;
-    }
+      if (gameOver || board[index] !== "" || currentPlayer !== "X") {
+        return;
+      }
 
-    const updatedBoard = [...board];
-    updatedBoard[index] = currentPlayer;
-    setBoard(updatedBoard);
-
-    if (checkWinner(updatedBoard)) {
-      setMessage(`${currentPlayer} wins!`);
-      setGameOver(true);
-      updateCoins(100, 2); // Add 100 gold and 2 diamonds to the player
-    } else if (checkDraw(updatedBoard)) {
-      setMessage("It's a draw!");
-      setGameOver(true);
-    } else {
-      setCurrentPlayer("O");
-    }
-  };
-
-  const computerMove = () => {
-    const availableCells = board
-      .map((cell, index) => (cell === "" ? index : null))
-      .filter((index) => index !== null);
-
-    if (availableCells.length > 0) {
-      const randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
       const updatedBoard = [...board];
-      updatedBoard[randomCell] = "O";
-
+      updatedBoard[index] = currentPlayer;
       setBoard(updatedBoard);
 
       if (checkWinner(updatedBoard)) {
-        setMessage("You lost! O wins! 😢");
+        setMessage(`${currentPlayer} wins!`);
         setGameOver(true);
-        setShowConfetti(false); // Stop confetti for loss
-        setWinningPoints(null); // No points for the player if they lose
+        updateCoins(100, 2); // Add 100 gold and 2 diamonds to the player
+        localStorage.setItem("gameResult", JSON.stringify({ winner: "player", score: { player: 1, ai: 0 }})); // Store player's win
       } else if (checkDraw(updatedBoard)) {
         setMessage("It's a draw!");
         setGameOver(true);
+        localStorage.setItem("gameResult", JSON.stringify({ winner: "draw", score: { player: 0, ai: 0 }})); // Store draw result
       } else {
-        setCurrentPlayer("X");
+        setCurrentPlayer("O");
       }
-    }
+  };
+
+
+  const computerMove = () => {
+      const availableCells = board
+        .map((cell, index) => (cell === "" ? index : null))
+        .filter((index) => index !== null);
+
+      if (availableCells.length > 0) {
+        const randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
+        const updatedBoard = [...board];
+        updatedBoard[randomCell] = "O";
+
+        setBoard(updatedBoard);
+
+        if (checkWinner(updatedBoard)) {
+          setMessage("You lost! O wins! 😢");
+          setGameOver(true);
+          setShowConfetti(false); // Stop confetti for loss
+          setWinningPoints(null); // No points for the player if they lose
+          localStorage.setItem("gameResult", JSON.stringify({ winner: "AI", score: { player: 0, ai: 1 }})); // Store AI's win
+        } else if (checkDraw(updatedBoard)) {
+          setMessage("It's a draw!");
+          setGameOver(true);
+          localStorage.setItem("gameResult", JSON.stringify({ winner: "draw", score: { player: 0, ai: 0 }})); // Store draw result
+        } else {
+          setCurrentPlayer("X");
+        }
+      }
   };
 
   const checkWinner = (board) => {
@@ -160,9 +165,22 @@ const TicTacToe = () => {
         )}
       </div>
       {gameOver && (
-        <button id="restart-button" onClick={restartGame}>
-          Play Again
-        </button>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            gap: '16px'
+          }}>
+            <button id="restart-button" onClick={restartGame}>
+              Play Again
+            </button>
+            <a href="/lobby">
+                <button id="restart-button" onClick={restartGame}
+                >
+                    back
+                </button> 
+            </a>
+        </div>
       )}
     </div>
   );
