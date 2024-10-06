@@ -24,7 +24,7 @@ function WorldIDconnect({ userType, onSuccessCallback }) {
   const handleProof = async (result) => {
     try {
       console.log("Proof received from IDKit:\n", JSON.stringify(result));
-      const response = await axios.post("http://localhost:3000/api/verify", {
+      const response = await axios.post("https://api.zkblock.xyz/api/verify", {
         proof: result.proof,
         signal: result.signal,
       });

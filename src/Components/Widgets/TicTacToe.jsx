@@ -13,31 +13,48 @@ const TicTacToe = () => {
   const [message, setMessage] = useState("");
   const [winningPoints, setWinningPoints] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false); // To trigger confetti
-// const [playerId, setPlayerId] = useState('')
+  // const [playerId, setPlayerId] = useState('')
   // Function to update player's coins
   const updateCoins = async (goldIncrease, diamondIncrease) => {
     try {
       const playerId = localStorage.getItem("address");
 
-     
       // Get the current gold and diamonds first
-      const goldResponse = await axios.get(`http://localhost:3000/api/getGoldCoins/${playerId}`);
-      const diamondResponse = await axios.get(`http://localhost:3000/api/getDiamonds/${playerId}`);
+      const goldResponse = await axios.get(
+        `https://api.zkblock.xyz/api/getGoldCoins/${playerId}`
+      );
+      const diamondResponse = await axios.get(
+        `https://api.zkblock.xyz/api/getDiamonds/${playerId}`
+      );
 
       const newGold = goldResponse.data.gold_coins + goldIncrease;
       const newDiamonds = diamondResponse.data.diamonds + diamondIncrease;
       try {
-        const res = await UpdateGameData(playerId, newGold, newDiamonds,"1", "GAME PROGRESS")
+        const res = await UpdateGameData(
+          playerId,
+          newGold,
+          newDiamonds,
+          "1",
+          "GAME PROGRESS"
+        );
       } catch (error) {
-        console.log("error",error);
+        console.log("error", error);
       }
-      await axios.put(`http://localhost:3000/api/updateGoldCoins/${playerId}`, { gold_coins: newGold });
-      await axios.put(`http://localhost:3000/api/updateDiamonds/${playerId}`, { diamonds: newDiamonds });
+      await axios.put(
+        `https://api.zkblock.xyz/api/updateGoldCoins/${playerId}`,
+        { gold_coins: newGold }
+      );
+      await axios.put(
+        `https://api.zkblock.xyz/api/updateDiamonds/${playerId}`,
+        { diamonds: newDiamonds }
+      );
 
       setWinningPoints({ gold: goldIncrease, diamonds: diamondIncrease });
-      setMessage(`🎉 You won! Earned ${goldIncrease} gold and ${diamondIncrease} diamonds.`);
+      setMessage(
+        `🎉 You won! Earned ${goldIncrease} gold and ${diamondIncrease} diamonds.`
+      );
       setShowConfetti(true); // Trigger confetti animation
-      alert("Transaction successful")
+      alert("Transaction successful");
     } catch (error) {
       console.error("Error updating coins:", error);
     }
@@ -50,62 +67,79 @@ const TicTacToe = () => {
   }, [currentPlayer, gameOver]);
 
   const handleCellClick = (index) => {
-      if (gameOver || board[index] !== "" || currentPlayer !== "X") {
-        return;
-      }
+    if (gameOver || board[index] !== "" || currentPlayer !== "X") {
+      return;
+    }
 
+    const updatedBoard = [...board];
+    updatedBoard[index] = currentPlayer;
+    setBoard(updatedBoard);
+
+    if (checkWinner(updatedBoard)) {
+      setMessage(`${currentPlayer} wins!`);
+      setGameOver(true);
+      updateCoins(100, 2); // Add 100 gold and 2 diamonds to the player
+      localStorage.setItem(
+        "gameResult",
+        JSON.stringify({ winner: "player", score: { player: 1, ai: 0 } })
+      ); // Store player's win
+    } else if (checkDraw(updatedBoard)) {
+      setMessage("It's a draw!");
+      setGameOver(true);
+      localStorage.setItem(
+        "gameResult",
+        JSON.stringify({ winner: "draw", score: { player: 0, ai: 0 } })
+      ); // Store draw result
+    } else {
+      setCurrentPlayer("O");
+    }
+  };
+
+  const computerMove = () => {
+    const availableCells = board
+      .map((cell, index) => (cell === "" ? index : null))
+      .filter((index) => index !== null);
+
+    if (availableCells.length > 0) {
+      const randomCell =
+        availableCells[Math.floor(Math.random() * availableCells.length)];
       const updatedBoard = [...board];
-      updatedBoard[index] = currentPlayer;
+      updatedBoard[randomCell] = "O";
+
       setBoard(updatedBoard);
 
       if (checkWinner(updatedBoard)) {
-        setMessage(`${currentPlayer} wins!`);
+        setMessage("You lost! O wins! 😢");
         setGameOver(true);
-        updateCoins(100, 2); // Add 100 gold and 2 diamonds to the player
-        localStorage.setItem("gameResult", JSON.stringify({ winner: "player", score: { player: 1, ai: 0 }})); // Store player's win
+        setShowConfetti(false); // Stop confetti for loss
+        setWinningPoints(null); // No points for the player if they lose
+        localStorage.setItem(
+          "gameResult",
+          JSON.stringify({ winner: "AI", score: { player: 0, ai: 1 } })
+        ); // Store AI's win
       } else if (checkDraw(updatedBoard)) {
         setMessage("It's a draw!");
         setGameOver(true);
-        localStorage.setItem("gameResult", JSON.stringify({ winner: "draw", score: { player: 0, ai: 0 }})); // Store draw result
+        localStorage.setItem(
+          "gameResult",
+          JSON.stringify({ winner: "draw", score: { player: 0, ai: 0 } })
+        ); // Store draw result
       } else {
-        setCurrentPlayer("O");
+        setCurrentPlayer("X");
       }
-  };
-
-
-  const computerMove = () => {
-      const availableCells = board
-        .map((cell, index) => (cell === "" ? index : null))
-        .filter((index) => index !== null);
-
-      if (availableCells.length > 0) {
-        const randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
-        const updatedBoard = [...board];
-        updatedBoard[randomCell] = "O";
-
-        setBoard(updatedBoard);
-
-        if (checkWinner(updatedBoard)) {
-          setMessage("You lost! O wins! 😢");
-          setGameOver(true);
-          setShowConfetti(false); // Stop confetti for loss
-          setWinningPoints(null); // No points for the player if they lose
-          localStorage.setItem("gameResult", JSON.stringify({ winner: "AI", score: { player: 0, ai: 1 }})); // Store AI's win
-        } else if (checkDraw(updatedBoard)) {
-          setMessage("It's a draw!");
-          setGameOver(true);
-          localStorage.setItem("gameResult", JSON.stringify({ winner: "draw", score: { player: 0, ai: 0 }})); // Store draw result
-        } else {
-          setCurrentPlayer("X");
-        }
-      }
+    }
   };
 
   const checkWinner = (board) => {
     const winCombinations = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8],
-      [0, 3, 6], [1, 4, 7], [2, 5, 8],
-      [0, 4, 8], [2, 4, 6]
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
     ];
 
     for (const combo of winCombinations) {
@@ -160,26 +194,28 @@ const TicTacToe = () => {
         {message && <p className="animated-message">{message}</p>}
         {winningPoints && (
           <p className="win-points">
-            💰 You earned {winningPoints.gold} gold and {winningPoints.diamonds} diamonds! 💎
+            💰 You earned {winningPoints.gold} gold and {winningPoints.diamonds}{" "}
+            diamonds! 💎
           </p>
         )}
       </div>
       {gameOver && (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: '16px'
-          }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            gap: "16px",
+          }}
+        >
+          <button id="restart-button" onClick={restartGame}>
+            Play Again
+          </button>
+          <a href="/lobby">
             <button id="restart-button" onClick={restartGame}>
-              Play Again
+              back
             </button>
-            <a href="/lobby">
-                <button id="restart-button" onClick={restartGame}
-                >
-                    back
-                </button> 
-            </a>
+          </a>
         </div>
       )}
     </div>

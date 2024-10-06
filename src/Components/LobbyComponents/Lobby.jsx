@@ -40,7 +40,7 @@ export const Lobby = () => {
       const fetchCoins = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3000/api/getOrCreateCoins/${playerId}`
+            `https://api.zkblock.xyz/api/getOrCreateCoins/${playerId}`
           );
           setCoins(response.data);
         } catch (error) {
