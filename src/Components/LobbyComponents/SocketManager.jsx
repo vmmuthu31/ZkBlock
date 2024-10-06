@@ -4,9 +4,7 @@ import { useEffect } from "react";
 import { io } from "socket.io-client";
 
 export const socket = io(
-  import.meta.env.VITE_SERVER_URL ||
-    "http://localhost:3000" ||
-    "https://api.zkblock.xyz/"
+  import.meta.env.VITE_SERVER_URL || "https://api.zkblock.xyz"
 );
 export const charactersAtom = atom([]);
 export const mapAtom = atom(null);
