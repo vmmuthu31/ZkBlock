@@ -3,7 +3,7 @@ import CustomHeader from "../Components/Landing/CustomHeader";
 
 function MarketPlace() {
   return (
-    <div className="bg-white">
+    <div className="bg-white pt-5 min-h-screen">
       <CustomHeader />
       <div>
         <p className="mt-10 font-bricolage text-[#312B55] text-2xl font-semibold text-center">

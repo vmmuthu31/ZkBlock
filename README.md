@@ -44,13 +44,17 @@ zkBlock is a decentralized game that gives players the opportunity to earn in-ga
 
 As part of the hackathon, zkBlock integrates the following platforms and protocols:
 
-1. **Mantle:**  
-   Mantle is utilized for zkBlock’s data availability and computation layer, allowing for efficient scaling and transaction throughput. By building on Mantle, zkBlock can process a high volume of transactions, making it ideal for the large user base and in-game transactions.
+- **Mantle:** Enables high transaction throughput and scaling for in-game activities.
+- **Ora Protocol:** Provides secure, decentralized identities for players, ensuring seamless authentication.
+- **Scroll:** Powers zk-rollups for low-cost, efficient transactions, especially for NFT minting and marketplace activities.
+- **Worldcoin:** Enhances user verification and engagement with secure identity validation.
 
-2. **Ore Protocol:**  
-   Ore Protocol enables zkBlock’s identity layer, ensuring that all users have secure, decentralized identities. This helps zkBlock with user management, verification, and secure authentication, providing a seamless login and interaction experience.
-
-3. **Scroll:**  
-   Scroll powers zkBlock’s zk-rollups, offering efficient and low-cost transactions. This allows zkBlock to operate with near-zero fees while maintaining the security of Ethereum's mainnet, ensuring that NFT minting and marketplace transactions are scalable and cost-effective.
 
 ## Screenshots
+![image](https://github.com/user-attachments/assets/25451db7-52c2-41bb-9f7c-597202250409)
+
+![image](https://github.com/user-attachments/assets/0401f985-bc71-4543-be60-766356178c35)
+
+![image](https://github.com/user-attachments/assets/4f2494e2-5308-4d8e-8a82-12204aad4c48)
+
+![image](https://github.com/user-attachments/assets/b37396c9-4033-4cbe-ac26-b2aaebf35095)
