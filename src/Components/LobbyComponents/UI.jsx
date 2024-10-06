@@ -95,9 +95,10 @@ export const UI = () => {
 
   const fetchCoins = async () => {
     try {
-
-      const playerId = localStorage.getItem("address")
-      const response = await axios.get(`http://localhost:3000/api/getOrCreateCoins/${playerId}`);
+      const playerId = localStorage.getItem("address");
+      const response = await axios.get(
+        `http://localhost:3000/api/getOrCreateCoins/${playerId}`
+      );
       setCoins(response.data);
     } catch (error) {
       console.error("Error fetching coins:", error);
@@ -105,10 +106,9 @@ export const UI = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchCoins();
-
-  },[])
+  }, []);
   const ref = useRef();
   const [chatMessage, setChatMessage] = useState("");
   const sendChatMessage = () => {
@@ -163,8 +163,8 @@ export const UI = () => {
 
   // Function to send message to chatbot
   const sendToChatBot = async () => {
-console.log("user message",userMessage);
-const res = await Mint(userMessage, coins);
+    console.log("user message", userMessage);
+    const res = await Mint(userMessage, coins);
 
     console.log("res", res);
     const len = res.length;
@@ -228,11 +228,12 @@ const res = await Mint(userMessage, coins);
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.5 }}
+        className=""
       >
         {avatarMode && (
           <AvatarCreator
             subdomain="wawa-sensei-tutorial"
-            className="fixed top-0 left-0 z-[999999999] w-full h-full"
+            className="fixed top-0  left-0  w-full h-full"
             onAvatarExported={(event) => {
               let newAvatarUrl =
                 event.data.url === avatarUrl.split("?")[0]
@@ -303,7 +304,7 @@ const res = await Mint(userMessage, coins);
 
         {/* Show Dark Theme Popup with Horizontal Scrolling Character Selection */}
         {menuOpen && (
-          <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white rounded-lg shadow-lg p-4 z-20 w-10/12 max-w-xl">
+          <div className="fixed -right-60 top-0 transform -translate-x-1/2 bg-black bg-opacity-70 text-white rounded-lg shadow-lg p-1 z-[9999] w-10/12 max-w-xl">
             {/* Close Button */}
             <div className="flex justify-end">
               <button
@@ -315,7 +316,7 @@ const res = await Mint(userMessage, coins);
             </div>
 
             {/* Horizontally Scrolling Character Selection */}
-            <div className="overflow-x-auto flex space-x-4 p-4">
+            <div className="overflow-x-auto z-[9999] flex space-x-4 p-4">
               {characters.map((character) => (
                 <div
                   key={character.file}

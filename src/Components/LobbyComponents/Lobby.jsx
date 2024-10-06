@@ -266,6 +266,7 @@ export const Lobby = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 background: "#dbcdc9",
+                zIndex: 0,
                 color: "#1e1e1e",
                 boxShadow: "0px 5px 20px 0px #353535",
               }}
