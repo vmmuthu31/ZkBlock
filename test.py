@@ -48,4 +48,5 @@ else:
 # federal favorite visual axis bulb festival health mask future then solution crumble pair library speak sunset citizen exotic what possible upon summer elder session
 # dftyq-bmjii-wuuyj-cwoh2-szifq-ifoja-lax7o-zz7te-hovnx-xddqm-4qe
 # a94705aed587e814627341d95a8ebfcca6b575bc837c4c0b3f9f57ca066dd82f    
-    
+
+# Sandbox pid 3208 for canister Some(ProcessInfo { canister_id: Some(CanisterId(bnz7o-iuaaa-aaaaa-qaaaa-cai)), panic_on_failure: true }) exited unexpectedly with status Exited(Pid(3208), 127)

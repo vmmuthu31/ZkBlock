@@ -6,7 +6,7 @@ import { roomItemsAtom } from "./Room";
 import { roomIDAtom, socket } from "./SocketManager";
 
 // Create an atom for storing the avatar model URL
-export const avatarUrlAtom = atom("/models/nagi.glb"); // Default avatar model
+export const avatarUrlAtom = atom("/models/vitalik_buterin.glb"); // Default avatar model
 export const buildModeAtom = atom(false);
 export const shopModeAtom = atom(false);
 export const draggedItemAtom = atom(null);
@@ -105,6 +105,7 @@ export const UI = () => {
 
   // Available characters for selection
   const characters = [
+    { name: "Vitalik_Buterin", file: "/models/vitalik_buterin.glb" },
     { name: "Nagi", file: "/models/nagi.glb" },
     { name: "Thiru", file: "/models/thiru.glb" },
     // Add more models here as needed
