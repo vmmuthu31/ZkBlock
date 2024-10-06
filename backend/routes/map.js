@@ -3,7 +3,7 @@ const MapModel = require("../models/map");
 const router = express.Router();
 const { verifyCloudProof } = require("@worldcoin/idkit-core/backend");
 
-const app_id = "app_e98efdb2faa9a49679dc04274c40aac1";
+const app_id = "app_staging_4bd210266b5d7237f97c4a03f1e1faf0";
 const action = "zkblock";
 
 router.post("/api/verify", async (req, res) => {
@@ -11,6 +11,7 @@ router.post("/api/verify", async (req, res) => {
 
   try {
     const verifyRes = await verifyCloudProof(proof, app_id, action, signal);
+    console.log("Verification result:", verifyRes);
     if (verifyRes.success) {
       res.status(200).json({ success: true });
     } else {

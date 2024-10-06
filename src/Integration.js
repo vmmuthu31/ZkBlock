@@ -3,8 +3,7 @@ import Web3 from "web3";
 import { ethers } from "ethers";
 
 import abi from "./abi.json";
-import game from "./game.json"
-import { parseEther } from "viem";
+import game from "./game.json";
 
 const isBrowser = () => typeof window !== "undefined";
 
@@ -15,12 +14,13 @@ if (ethereum) {
   isBrowser().web3 = new Web3(isBrowser().web3.currentProvider);
 }
 
+const CONTRACT_ADDRESSES = {
+  3441006: "0x064fDd34631E558dBD57EA80aaf4B02Da4b1fA19", // manta testnet
+  534351: "0x284DAFC430a7AA660925fAf018918f3Ecd216CB8", // scroll testnet
+};
 const contract_address = "0xC20DeDbE8642b77EfDb4372915947c87b7a526bD";
-
 const scroll_address = "0x284DAFC430a7AA660925fAf018918f3Ecd216CB8";
-
-const manta_address = "0x064fDd34631E558dBD57EA80aaf4B02Da4b1fA19"
-
+const manta_address = "0x064fDd34631E558dBD57EA80aaf4B02Da4b1fA19";
 
 export const Mint = async (userMessage, coins) => {
   // provider
@@ -28,15 +28,7 @@ export const Mint = async (userMessage, coins) => {
     window.ethereum != null
       ? new ethers.providers.Web3Provider(window.ethereum)
       : ethers.providers.getDefaultProvider();
-  console.log("provider", provider);
-
-  //signer
-
   const signer = provider.getSigner();
-
-  console.log("signer", signer);
-  // contract instance
-
   const contract = new ethers.Contract(contract_address, abi, signer);
 
   console.log("contract", contract);
@@ -77,80 +69,36 @@ Each block required 200 coins to purchase them
   );
 
   await tx.wait();
-
-  console.log("tx", tx);
-
   const eventFilter = contract.filters.promptRequest();
-  console.log("event filter", eventFilter);
-    // Define the block range
-    const fromBlock = 0; // Start block number
-    const toBlock = 'latest'; // End block number
-  
-    // Query past events
-    const events = await contract.queryFilter(eventFilter, fromBlock, toBlock);
-  console.log("events",events);
-    // Process the events
-    const ev =[]
-    events.forEach(event => {
-        console.log(event.args); // Access event arguments
-        ev.push(event.args)
-    });
-  
+  const fromBlock = 0;
+  const toBlock = "latest";
+  const events = await contract.queryFilter(eventFilter, fromBlock, toBlock);
+  const ev = [];
+  events.forEach((event) => {
+    ev.push(event.args);
+  });
 
   return ev;
 };
-export const Getty = async (val) => {
-  // provider
 
-  console.log("val", val);
+export const Getty = async (val) => {
   const provider =
     window.ethereum != null
       ? new ethers.providers.Web3Provider(window.ethereum)
       : ethers.providers.getDefaultProvider();
-  console.log("provider", provider);
-
-  //signer
-
   const signer = provider.getSigner();
-
-  console.log("signer", signer);
-  // contract instance
-
   const contract = new ethers.Contract(contract_address, abi, signer);
-
-  console.log("contract", contract);
-
-
-
-  const tx = await contract.requests(
-   val
-  );
-
-
-  console.log("tx", tx);
-
+  const tx = await contract.requests(val);
   return tx;
 };
 export const Evy = async () => {
-  // provider
   const provider =
     window.ethereum != null
       ? new ethers.providers.Web3Provider(window.ethereum)
       : ethers.providers.getDefaultProvider();
-  console.log("provider", provider);
-
-  //signer
-
   const signer = provider.getSigner();
-
-  console.log("signer", signer);
-  // contract instance
-
   const contract = new ethers.Contract(contract_address, abi, signer);
-
-  console.log("contract", contract);
-
-  contract.on("promptRequest", (requestId, sender, modelId,prompt) => {
+  contract.on("promptRequest", (requestId, sender, modelId, prompt) => {
     console.log("AIResultCalculated event detected:");
     console.log("Model ID:", modelId.toString());
     console.log("Request ID:", requestId.toString());
@@ -158,53 +106,33 @@ export const Evy = async () => {
     console.log("Prompt:", prompt.toString());
   });
 
-
   const eventFilter = contract.filters.promptRequest();
-console.log("event filter", eventFilter);
-  // Define the block range
-  const fromBlock = 0; // Start block number
-  const toBlock = 'latest'; // End block number
+  const fromBlock = 0;
+  const toBlock = "latest";
 
-  // Query past events
   const events = await contract.queryFilter(eventFilter, fromBlock, toBlock);
-
-  // Process the events
-  events.forEach(event => {
-      console.log(event.args); // Access event arguments
+  events.forEach((event) => {
+    console.log(event.args);
   });
-
 };
 
+export const UpdateGameData = async (player, gold, diamond, mapId, data) => {
+  const provider =
+    window.ethereum != null
+      ? new ethers.providers.Web3Provider(window.ethereum)
+      : ethers.providers.getDefaultProvider();
+  const signer = provider.getSigner();
 
-export const UpdateGameData = async (player,gold,diamond,mapId, data) => {
-    // provider
-  
-    const provider =
-      window.ethereum != null
-        ? new ethers.providers.Web3Provider(window.ethereum)
-        : ethers.providers.getDefaultProvider();
-    console.log("provider", provider);
-  
-    //signer
-  
-    const signer = provider.getSigner();
-  
-    console.log("signer", signer);
-    // contract instance
-  
-    const contract = new ethers.Contract(scroll_address, game, signer);
-  
-    console.log("contract", contract);
-  
-  
-  
-    const tx = await contract.updatePlayerAndAddData(
-     player,
-     gold,diamond,mapId, data
-    );
-  
-  
-    console.log("tx", tx);
-  
-    return tx;
-  };
+  const contractaddress = CONTRACT_ADDRESSES[network.chainId];
+  const contract = new ethers.Contract(contractaddress, game, signer);
+
+  const tx = await contract.updatePlayerAndAddData(
+    player,
+    gold,
+    diamond,
+    mapId,
+    data
+  );
+
+  return tx;
+};
