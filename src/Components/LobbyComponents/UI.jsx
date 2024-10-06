@@ -6,6 +6,7 @@ import { roomItemsAtom } from "./Room";
 import { roomIDAtom, socket } from "./SocketManager";
 import { Getty, Mint } from "../../Integration";
 import { ethers } from "ethers";
+import axios from "axios";
 // Create an atom for storing the avatar model URL
 export const avatarUrlAtom = atom("/models/vitalik_buterin.glb"); // Default avatar model
 export const buildModeAtom = atom(false);
@@ -75,6 +76,7 @@ export const UI = () => {
   const [avatarUrl, setAvatarUrl] = useAtom(avatarUrlAtom); // Access and update the avatar URL
   const [roomID, setRoomID] = useAtom(roomIDAtom);
   const [passwordCorrectForRoom, setPasswordCorrectForRoom] = useState(false);
+  const [coins, setCoins] = useState({ gold_coins: 0, diamonds: 0 });
 
   const leaveRoom = () => {
     socket.emit("leaveRoom");
@@ -87,6 +89,22 @@ export const UI = () => {
     setPasswordCorrectForRoom(false);
   }, [roomID]);
 
+  const fetchCoins = async () => {
+    try {
+
+      const playerId = localStorage.getItem("address")
+      const response = await axios.get(`http://localhost:3000/api/getOrCreateCoins/${playerId}`);
+      setCoins(response.data);
+    } catch (error) {
+      console.error("Error fetching coins:", error);
+    } finally {
+    }
+  };
+
+  useEffect(()=>{
+    fetchCoins();
+
+  },[])
   const ref = useRef();
   const [chatMessage, setChatMessage] = useState("");
   const sendChatMessage = () => {
@@ -142,7 +160,7 @@ console.log("result string",resultString);
   // Function to send message to chatbot
   const sendToChatBot = async () => {
 console.log("user message",userMessage);
-const res = await Mint(userMessage);
+const res = await Mint(userMessage, coins);
 
 console.log("res",res);
 const len = res.length;
@@ -387,7 +405,9 @@ const result =  convertHexToString(answer);
                 className="bg-blue-500 text-white p-2 rounded-lg"
                 onClick={Refresh}
               >
-                Refresh
+                
+      🔄
+     
               </button>
             </div>
           </div>

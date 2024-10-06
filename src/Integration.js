@@ -22,7 +22,7 @@ const scroll_address = "0x284DAFC430a7AA660925fAf018918f3Ecd216CB8";
 const manta_address = "0x064fDd34631E558dBD57EA80aaf4B02Da4b1fA19"
 
 
-export const Mint = async (userMessage) => {
+export const Mint = async (userMessage, coins) => {
   // provider
   const provider =
     window.ethereum != null
@@ -64,9 +64,14 @@ export const Mint = async (userMessage) => {
 //     gasLimit = ethers.BigNumber.from("500000"); // Set a fallback value
 //   }
 
+const prompt = `Game Description : Build Worlds: Use coins and diamonds to buy blocks and land, and construct unique worlds.,
+no of blocks: 5,
+names:[graph, scroll, ORA, grass,Manta],
+Each block required 200 coins to purchase them
+`
 
   const tx = await contract.calculateAIResult(
-   "11","Hello",{value:ethers.utils.parseEther("0.0105"), 
+   "11",`User Query: ${userMessage} , I have:  Gold:${coins.gold_coins}, Diamond:${coins.diamond},  game Description: ${prompt}, if user asks anything regrding this data then only give them these data else just talk in general `,{value:ethers.utils.parseEther("0.0105"), 
     gasLimit:10000000
    }
   );
