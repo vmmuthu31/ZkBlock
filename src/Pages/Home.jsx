@@ -25,11 +25,11 @@ function Home() {
         <img src="/list3.svg" alt="" className="w-full " />
       </div>
       <div className="flex justify-center  ">
-        <Link to="/lobby">
+        <a href="/lobby">
           <button className="bg-[#443E65] mt-12 px-5 py-3 rounded-lg text-[#ECE9FF]">
             Start Building{" "}
           </button>
-        </Link>
+        </a>
         <img src="/crownright.svg" alt="" />
       </div>
 
@@ -67,11 +67,11 @@ function Home() {
             meets profit, and creativity knows no bounds.
           </p>
           <div>
-            <Link to="/lobby">
+            <a href="/lobby">
               <button className="bg-[#443E65] px-5 py-3 rounded-lg text-[#ECE9FF]">
                 Start Creating Now{" "}
               </button>
-            </Link>
+            </a>
           </div>
         </div>
       </div>
