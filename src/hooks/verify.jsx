@@ -1,6 +1,6 @@
 import { verifyCloudProof } from "@worldcoin/idkit-core/backend";
 
-const app_id = "app_e98efdb2faa9a49679dc04274c40aac1";
+const app_id = "app_758ba4e53a64678b4cb6227f4b5d2f77";
 const action = "zkblock";
 
 export async function verify(proof, signal) {
