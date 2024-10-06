@@ -18,7 +18,11 @@ if (ethereum) {
 const contract_address = "0xC20DeDbE8642b77EfDb4372915947c87b7a526bD";
 
 const scroll_address = "0x284DAFC430a7AA660925fAf018918f3Ecd216CB8";
-export const Mint = async () => {
+
+const manta_address = "0x064fDd34631E558dBD57EA80aaf4B02Da4b1fA19"
+
+
+export const Mint = async (userMessage) => {
   // provider
   const provider =
     window.ethereum != null
@@ -37,28 +41,28 @@ export const Mint = async () => {
 
   console.log("contract", contract);
 
-  let gasLimit;
-  const fee = await contract.estimateFee("11");
-  console.log("fee",fee.toString());
-  try {
-    gasLimit = await contract.estimateGas.calculateAIResult(
-      "11",
-      JSON.stringify({
-          charactername: "thiru",
-          token: "1000",
-          items: { chair: "10", cup: "5" }
-      }),
-      { value: ethers.utils.parseEther("0.01") }
-  );
-  console.log("Estimated Gas Limit: ", gasLimit.toString());
- const fee = await contract.estimateFee("11");
- console.log("fee",fee.toString());
-    console.log("Estimated Gas Limit: ", gasLimit.toString());
-  } catch (err) {
-    console.error("Error estimating gas: ", err);
-    // Fallback to a manual gas limit if estimation fails
-    gasLimit = ethers.BigNumber.from("500000"); // Set a fallback value
-  }
+//   let gasLimit;
+//   const fee = await contract.estimateFee("11");
+//   console.log("fee",fee.toString());
+//   try {
+//     gasLimit = await contract.estimateGas.calculateAIResult(
+//       "11",
+//       JSON.stringify({
+//           charactername: "thiru",
+//           token: "1000",
+//           items: { chair: "10", cup: "5" }
+//       }),
+//       { value: ethers.utils.parseEther("0.01") }
+//   );
+//   console.log("Estimated Gas Limit: ", gasLimit.toString());
+//  const fee = await contract.estimateFee("11");
+//  console.log("fee",fee.toString());
+//     console.log("Estimated Gas Limit: ", gasLimit.toString());
+//   } catch (err) {
+//     console.error("Error estimating gas: ", err);
+//     // Fallback to a manual gas limit if estimation fails
+//     gasLimit = ethers.BigNumber.from("500000"); // Set a fallback value
+//   }
 
 
   const tx = await contract.calculateAIResult(
