@@ -122,16 +122,21 @@ export const UpdateGameData = async (player, gold, diamond, mapId, data) => {
       ? new ethers.providers.Web3Provider(window.ethereum)
       : ethers.providers.getDefaultProvider();
   const signer = provider.getSigner();
-
-  const contractaddress = network !== undefined ? CONTRACT_ADDRESSES[network.chainId] : manta_address;
-  const contract = new ethers.Contract(contractaddress, game, signer);
-
+  const network = await provider.getNetwork();
+  const contractAddress = CONTRACT_ADDRESSES[network.chainId];
+  const contract = new ethers.Contract(contractAddress, game, signer);
+  console.log(contractAddress);
+  const PlayerAddress = "0x1234567890abcdef1234567890abcdef12345678";
+  const GoldAmount = ethers.utils.parseUnits("10", 18);
+  const DiamondAmount = ethers.utils.parseUnits("5", 18);
+  const MapId = 12345;
+  const Data = "Initial game data for player on map 12345";
   const tx = await contract.updatePlayerAndAddData(
-    player,
-    gold,
-    diamond,
-    mapId,
-    data
+    PlayerAddress,
+    GoldAmount,
+    DiamondAmount,
+    MapId,
+    Data
   );
 
   return tx;
