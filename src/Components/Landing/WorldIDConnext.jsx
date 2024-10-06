@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function WorldIDconnect({ userType, onSuccessCallback }) {
   const navigate = useNavigate();
-  const app_id = "app_758ba4e53a64678b4cb6227f4b5d2f77";
+  const app_id = "app_4a2e338845b3e7491199944e9d92efc5";
   const action = "zkblock";
   if (!app_id) {
     throw new Error("app_id is not set in environment variables!");
