@@ -4,7 +4,7 @@ const router = express.Router();
 const { verifyCloudProof } = require("@worldcoin/idkit-core/backend");
 
 const app_id = "app_4a2e338845b3e7491199944e9d92efc5";
-const action = "zkblock";
+const action = "gryffindors";
 
 router.post("/api/verify", async (req, res) => {
   const { proof, signal } = req.body;
