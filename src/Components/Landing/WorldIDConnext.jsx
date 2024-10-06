@@ -22,25 +22,8 @@ function WorldIDconnect({ userType, onSuccessCallback }) {
   };
 
   const handleProof = async (result) => {
-    try {
-      console.log("Proof received from IDKit:\n", JSON.stringify(result));
-      const response = await axios.post("https://api.zkblock.xyz/api/verify", {
-        proof: result.proof,
-        signal: result.signal,
-      });
-
-      if (response.data.success) {
-        if (onSuccessCallback) {
-          onSuccessCallback();
-        }
-        onSuccess(result);
-      } else {
-        throw new Error(`Verification failed: ${response.data.detail}`);
-      }
-    } catch (error) {
-      console.error("Error during verification:", error);
-      throw new Error(error.response?.data?.detail || "Verification failed");
-    }
+    console.log("Proof received from IDKit:\n", JSON.stringify(result));
+    navigate("/lobby");
   };
 
   return (
