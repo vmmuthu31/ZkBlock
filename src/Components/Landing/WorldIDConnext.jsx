@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 function WorldIDconnect({ userType, onSuccessCallback }) {
   const navigate = useNavigate();
-  const app_id = "app_staging_4bd210266b5d7237f97c4a03f1e1faf0";
-  const action = "zkblock";
+  const app_id = "app_4a2e338845b3e7491199944e9d92efc5";
+  const action = "gryffindors";
   if (!app_id) {
     throw new Error("app_id is not set in environment variables!");
   }
@@ -22,25 +22,8 @@ function WorldIDconnect({ userType, onSuccessCallback }) {
   };
 
   const handleProof = async (result) => {
-    try {
-      console.log("Proof received from IDKit:\n", JSON.stringify(result));
-      const response = await axios.post("http://localhost:3000/api/verify", {
-        proof: result.proof,
-        signal: result.signal,
-      });
-
-      if (response.data.success) {
-        if (onSuccessCallback) {
-          onSuccessCallback();
-        }
-        onSuccess(result);
-      } else {
-        throw new Error(`Verification failed: ${response.data.detail}`);
-      }
-    } catch (error) {
-      console.error("Error during verification:", error);
-      throw new Error(error.response?.data?.detail || "Verification failed");
-    }
+    console.log("Proof received from IDKit:\n", JSON.stringify(result));
+    navigate("/lobby");
   };
 
   return (

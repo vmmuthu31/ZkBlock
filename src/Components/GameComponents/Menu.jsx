@@ -31,7 +31,7 @@ export const Menu = () => {
   const cubes = useStore((state) => state.cubes);
   const availableMaps = useStore((state) => state.availableMaps);
 
-  const worldId = Math.floor(Math.random() * 10).toString();  // Example world ID
+  const worldId = Math.floor(Math.random() * 10).toString(); // Example world ID
   const playerId = localStorage.getItem("address"); // Example player ID
 
   const [selectedMap, setSelectedMap] = useState("");
@@ -133,11 +133,19 @@ export const Menu = () => {
             </button>
           </div>
           <div className="menu-content">
-            <button onClick={() =>{ saveWorld(cubes, worldId, playerId)
-              UpdateGameData(playerId,12, 24,worldId,playerId, "MenuProgress")
-              alert("Game Saved Successfully")
-            }
-            }>
+            <button
+              onClick={() => {
+                saveWorld(cubes, worldId, playerId);
+                UpdateGameData(
+                  playerId,
+                  12,
+                  24,
+                  worldId,
+                  playerId,
+                  "MenuProgress"
+                );
+              }}
+            >
               Save
             </button>
             <button onClick={() => resetWorld()}>Reset</button>

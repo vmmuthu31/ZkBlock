@@ -44,17 +44,30 @@ zkBlock is a decentralized game that gives players the opportunity to earn in-ga
 
 As part of the hackathon, zkBlock integrates the following platforms and protocols:
 
-- **Mantle:** Enables high transaction throughput and scaling for in-game activities.
+- **Manta:** Enables high transaction throughput and scaling for in-game activities.
 - **Ora Protocol:** Provides secure, decentralized identities for players, ensuring seamless authentication.
 - **Scroll:** Powers zk-rollups for low-cost, efficient transactions, especially for NFT minting and marketplace activities.
 - **Worldcoin:** Enhances user verification and engagement with secure identity validation.
 
+## Video Demo
+
+https://www.youtube.com/watch?v=lWEhz9f5r5k
+
+## Website 
+
+https://www.zkblock.xyz
+
+## Deployed Addresses
+
+Scroll : https://sepolia.scrollscan.com/address/0x284dafc430a7aa660925faf018918f3ecd216cb8
+Manta : https://manta-sepolia.explorer.caldera.xyz/address/0x064fDd34631E558dBD57EA80aaf4B02Da4b1fA19
 
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/25451db7-52c2-41bb-9f7c-597202250409)
 
-![image](https://github.com/user-attachments/assets/0401f985-bc71-4543-be60-766356178c35)
+![image](https://github.com/user-attachments/assets/614879b6-05f0-4d94-8637-63a0433c6bb0)
 
 ![image](https://github.com/user-attachments/assets/4f2494e2-5308-4d8e-8a82-12204aad4c48)
 
 ![image](https://github.com/user-attachments/assets/b37396c9-4033-4cbe-ac26-b2aaebf35095)
+

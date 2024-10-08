@@ -3,8 +3,8 @@ const MapModel = require("../models/map");
 const router = express.Router();
 const { verifyCloudProof } = require("@worldcoin/idkit-core/backend");
 
-const app_id = "app_staging_4bd210266b5d7237f97c4a03f1e1faf0";
-const action = "zkblock";
+const app_id = "app_4a2e338845b3e7491199944e9d92efc5";
+const action = "gryffindors";
 
 router.post("/api/verify", async (req, res) => {
   const { proof, signal } = req.body;

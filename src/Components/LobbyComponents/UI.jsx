@@ -6,6 +6,9 @@ import { roomItemsAtom } from "./Room";
 import { roomIDAtom, socket } from "./SocketManager";
 import { Getty, Mint } from "../../Integration";
 import { ethers } from "ethers";
+import axios from "axios";
+import { MdOutlineAutorenew } from "react-icons/md";
+
 // Create an atom for storing the avatar model URL
 export const avatarUrlAtom = atom("/models/vitalik_buterin.glb"); // Default avatar model
 export const buildModeAtom = atom(false);
@@ -68,13 +71,16 @@ export const UI = () => {
   const [buildMode, setBuildMode] = useAtom(buildModeAtom);
   const [shopMode, setShopMode] = useAtom(shopModeAtom);
   const [draggedItem, setDraggedItem] = useAtom(draggedItemAtom);
-  const [draggedItemRotation, setDraggedItemRotation] = useAtom(draggedItemRotationAtom);
+  const [draggedItemRotation, setDraggedItemRotation] = useAtom(
+    draggedItemRotationAtom
+  );
   const [_roomItems, setRoomItems] = useAtom(roomItemsAtom);
   const [passwordMode, setPasswordMode] = useState(false);
   const [avatarMode, setAvatarMode] = useState(false);
   const [avatarUrl, setAvatarUrl] = useAtom(avatarUrlAtom); // Access and update the avatar URL
   const [roomID, setRoomID] = useAtom(roomIDAtom);
   const [passwordCorrectForRoom, setPasswordCorrectForRoom] = useState(false);
+  const [coins, setCoins] = useState({ gold_coins: 0, diamonds: 0 });
 
   const leaveRoom = () => {
     socket.emit("leaveRoom");
@@ -87,6 +93,22 @@ export const UI = () => {
     setPasswordCorrectForRoom(false);
   }, [roomID]);
 
+  const fetchCoins = async () => {
+    try {
+      const playerId = localStorage.getItem("address");
+      const response = await axios.get(
+        `https://api.zkblock.xyz/api/getOrCreateCoins/${playerId}`
+      );
+      setCoins(response.data);
+    } catch (error) {
+      console.error("Error fetching coins:", error);
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    fetchCoins();
+  }, []);
   const ref = useRef();
   const [chatMessage, setChatMessage] = useState("");
   const sendChatMessage = () => {
@@ -113,25 +135,25 @@ export const UI = () => {
     // Add more models here as needed
   ];
 
-  const [outputString, setOutputString] = useState('');
+  const [outputString, setOutputString] = useState("");
 
   const convertHexToString = (hex) => {
     try {
       // Remove the '0x' prefix if present
-      const cleanHex = hex.startsWith('0x') ? hex.slice(2) : hex;
+      const cleanHex = hex.startsWith("0x") ? hex.slice(2) : hex;
 
       // Convert the hex string to a buffer (array of bytes)
       const bytesArray = ethers.utils.arrayify(`0x${cleanHex}`);
 
       // Convert the bytes array to a string
       const resultString = ethers.utils.toUtf8String(bytesArray);
-console.log("result string",resultString);
+      console.log("result string", resultString);
       // Set the output string in the state
       setOutputString(resultString);
       return resultString;
     } catch (error) {
-      console.error('Error while converting hex to string:', error);
-      setOutputString('Invalid hex input!');
+      console.error("Error while converting hex to string:", error);
+      setOutputString("Invalid hex input!");
     }
   };
 
@@ -142,30 +164,30 @@ console.log("result string",resultString);
 
   // Function to send message to chatbot
   const sendToChatBot = async () => {
-console.log("user message",userMessage);
-const res = await Mint(userMessage);
+    console.log("user message", userMessage);
+    const res = await Mint(userMessage, coins);
 
-console.log("res",res);
-const len = res.length;
-console.log("res last", res[len-1]);
-const last = res[len-1];
-const reqID = last["requestId"];
+    console.log("res", res);
+    const len = res.length;
+    console.log("res last", res[len - 1]);
+    const last = res[len - 1];
+    const reqID = last["requestId"];
 
-const reqIdInString = reqID.toString();
+    const reqIdInString = reqID.toString();
 
-console.log("req in string", reqIdInString);
+    console.log("req in string", reqIdInString);
 
-localStorage.setItem("reqId", reqIdInString);
-console.log("calling read");
+    localStorage.setItem("reqId", reqIdInString);
+    console.log("calling read");
 
-const answer = await Getty(reqIdInString)
+    const answer = await Getty(reqIdInString);
 
-console.log("answer",answer)
-const valans = answer["output"]
+    console.log("answer", answer);
+    const valans = answer["output"];
 
-console.log("val",valans)
-console.log("val",valans.toString())
-const result =  convertHexToString(answer);
+    console.log("val", valans);
+    console.log("val", valans.toString());
+    const result = convertHexToString(answer);
 
     // if (userMessage.trim() !== "") {
     //   const newMessages = [
@@ -178,29 +200,27 @@ const result =  convertHexToString(answer);
     // }
   };
 
-
-  const Refresh = async() => {
+  const Refresh = async () => {
     try {
-      const val = localStorage.getItem("reqId")
+      const val = localStorage.getItem("reqId");
       const res = await Getty(val);
-      const valans = res["output"]
+      const valans = res["output"];
 
-      console.log("val",valans)
-      console.log("val",valans.toString())
-   const mes =   convertHexToString(valans.toString())
+      console.log("val", valans);
+      console.log("val", valans.toString());
+      const mes = convertHexToString(valans.toString());
 
-   const newMessages = [
-    ...messages,
-    { sender: "user", text: userMessage },
-    { sender: "bot", text: mes }, // Simulated AI response
-  ];
-  setMessages(newMessages);
-  setUserMessage(""); // Clear input field
-
+      const newMessages = [
+        ...messages,
+        { sender: "user", text: userMessage },
+        { sender: "bot", text: mes }, // Simulated AI response
+      ];
+      setMessages(newMessages);
+      setUserMessage(""); // Clear input field
     } catch (error) {
       console.log("error in refresh");
     }
-  }
+  };
 
   return (
     <>
@@ -209,11 +229,12 @@ const result =  convertHexToString(answer);
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.5 }}
+        className=""
       >
         {avatarMode && (
           <AvatarCreator
             subdomain="wawa-sensei-tutorial"
-            className="fixed top-0 left-0 z-[999999999] w-full h-full"
+            className="fixed top-0  left-0  w-full h-full"
             onAvatarExported={(event) => {
               let newAvatarUrl =
                 event.data.url === avatarUrl.split("?")[0]
@@ -284,7 +305,7 @@ const result =  convertHexToString(answer);
 
         {/* Show Dark Theme Popup with Horizontal Scrolling Character Selection */}
         {menuOpen && (
-          <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white rounded-lg shadow-lg p-4 z-20 w-10/12 max-w-xl">
+          <div className="fixed -right-60 top-0 transform -translate-x-1/2 bg-black bg-opacity-70 text-white rounded-lg shadow-lg p-1 z-[9999] w-10/12 max-w-xl">
             {/* Close Button */}
             <div className="flex justify-end">
               <button
@@ -296,7 +317,7 @@ const result =  convertHexToString(answer);
             </div>
 
             {/* Horizontally Scrolling Character Selection */}
-            <div className="overflow-x-auto flex space-x-4 p-4">
+            <div className="overflow-x-auto z-[9999] flex space-x-4 p-4">
               {characters.map((character) => (
                 <div
                   key={character.file}
@@ -384,12 +405,10 @@ const result =  convertHexToString(answer);
               >
                 Send
               </button>
-              <button
-                className="bg-blue-500 text-white p-2 rounded-lg"
+              <MdOutlineAutorenew
+                className="bg-blue-500 w-10 h-10 text-white p-2 rounded-lg"
                 onClick={Refresh}
-              >
-                Refresh
-              </button>
+              />
             </div>
           </div>
         )}
