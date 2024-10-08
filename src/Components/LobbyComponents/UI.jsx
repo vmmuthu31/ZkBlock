@@ -109,6 +109,7 @@ export const UI = () => {
     { name: "Vitalik_Buterin", file: "/models/vitalik_buterin.glb" },
     { name: "Nagi", file: "/models/nagi.glb" },
     { name: "Thiru", file: "/models/thiru.glb" },
+    { name: "New", file: "/models/model.glb" },
     // Add more models here as needed
   ];
 
